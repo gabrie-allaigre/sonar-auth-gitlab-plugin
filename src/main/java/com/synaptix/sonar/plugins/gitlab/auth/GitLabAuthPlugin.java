@@ -22,6 +22,7 @@ package com.synaptix.sonar.plugins.gitlab.auth;
 import org.sonar.api.SonarPlugin;
 import org.sonar.api.config.PropertyDefinition;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -54,6 +55,9 @@ public class GitLabAuthPlugin extends SonarPlugin {
 
     @Override
     public List getExtensions() {
-        return Arrays.asList(GitLabConfiguration.class, GitLabIdentityProvider.class, definitions());
+        List extensions = new ArrayList();
+        extensions.addAll(Arrays.asList(GitLabConfiguration.class, GitLabIdentityProvider.class));
+        extensions.addAll(definitions());
+        return extensions;
     }
 }
