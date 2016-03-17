@@ -1,7 +1,7 @@
 /*
- * GitHub Authentication for SonarQube
- * Copyright (C) 2016-2016 SonarSource SA
- * mailto:contact AT sonarsource DOT com
+ * SonarQube :: GitLab Auth Plugin
+ * Copyright (C) 2016-2016 Talanlabs
+ * gabriel.allaigre@talanlabs.com
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,24 +17,24 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonarsource.auth.github;
+package com.synaptix.sonar.plugins.gitlab.auth;
 
 import com.google.gson.Gson;
 
 /**
- * Lite representation of JSON response of GET https://api.github.com/user
+ * Lite representation of JSON response of GET https://gitlab.com/user
  */
 public class GsonUser {
-  private String login;
+  private String username;
   private String name;
   private String email;
 
-  public String getLogin() {
-    return login;
+  public String getUsername() {
+    return username;
   }
 
-  public GsonUser setLogin(String login) {
-    this.login = login;
+  public GsonUser setUsername(String username) {
+    this.username = username;
     return this;
   }
 

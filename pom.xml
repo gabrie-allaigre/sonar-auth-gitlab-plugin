@@ -1,30 +1,36 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.sonarsource.parent</groupId>
-    <artifactId>parent</artifactId>
-    <version>28</version>
-  </parent>
+    <parent>
+        <groupId>org.sonarsource.parent</groupId>
+        <artifactId>parent</artifactId>
+        <version>28</version>
+    </parent>
 
-  <groupId>org.sonarsource.auth.gitlab</groupId>
-  <artifactId>sonar-auth-gitlab-plugin</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>sonar-plugin</packaging>
-  <name>GitLab Authentication for SonarQube</name>
-  <inceptionYear>2016</inceptionYear>
+    <groupId>org.sonarsource.auth.gitlab</groupId>
+    <artifactId>sonar-auth-gitlab-plugin</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>sonar-plugin</packaging>
+    <name>SonarQube :: GitLab Auth Plugin</name>
+    <inceptionYear>2016</inceptionYear>
+    <organization>
+        <name>Talanlabs</name>
+        <url>http://www.talanlabs.com</url>
+    </organization>
+    <url>https://gitlab.talanlabs.com/gabriel-allaigre/sonar-auth-gitlab-plugin</url>
+    <properties>
+        <java-gitlab-api.version>1.4.0</java-gitlab-api.version>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	<sonar.pluginName>GitLab Auth</sonar.pluginName>
-    <sonar.pluginClass>org.sonarsource.auth.github.AuthGitHubPlugin</sonar.pluginClass>
+        <license.mailto>gabriel.allaigre@talanlabs.com</license.mailto>
+        <license.owner>Talanlabs</license.owner>
 
-    <!-- used for deployment to SonarSource Artifactory -->
-    <gitRepositoryName>sonar-auth-gitlab-plugin</gitRepositoryName>
-  </properties>
+        <sonar.version>5.4-RC1</sonar.version>
+        <sonar.pluginName>GitLab Auth</sonar.pluginName>
+        <sonar.pluginClass>com.synaptix.sonar.plugins.gitlab.auth.GitLabAuthPlugin</sonar.pluginClass>
+    </properties>
 
-  <developers>
+    <developers>
         <developer>
             <id>gabriel.allaigre@talanlabs.com</id>
             <name>Gabriel Allaigre</name>
@@ -65,82 +71,98 @@
             <url>http://nexus.talanlabs.com/content/groups/public_snapshots</url>
         </repository>
     </repositories>
+    <dependencies>
+        <dependency>
+            <groupId>org.sonarsource.sonarqube</groupId>
+            <artifactId>sonar-plugin-api</artifactId>
+            <version>${sonar.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.sonarsource.sonarqube</groupId>
-      <artifactId>sonar-plugin-api</artifactId>
-      <version>5.4-RC1</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.github.scribejava</groupId>
-      <artifactId>scribejava-apis</artifactId>
-      <version>2.1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <version>2.3.1</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-codec</groupId>
-      <artifactId>commons-codec</artifactId>
-      <version>1.8</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>3.0.1</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>jsr305</artifactId>
-      <version>3.0.0</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>17.0</version>
-      <exclusions>
-        <exclusion>
-          <!-- should be declared with scope provided -->
-          <groupId>com.google.code.findbugs</groupId>
-          <artifactId>jsr305</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
+        <dependency>
+            <groupId>com.synaptix</groupId>
+            <artifactId>java-gitlab-api</artifactId>
+            <version>${java-gitlab-api.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-core</artifactId>
-      <version>2.2.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <version>1.10.19</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.hamcrest</groupId>
-          <artifactId>hamcrest-core</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>com.squareup.okhttp</groupId>
-      <artifactId>mockwebserver</artifactId>
-      <version>2.6.0</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+        <dependency>
+            <groupId>com.github.scribejava</groupId>
+            <artifactId>scribejava-apis</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.8</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>17.0</version>
+            <exclusions>
+                <exclusion>
+                    <!-- should be declared with scope provided -->
+                    <groupId>com.google.code.findbugs</groupId>
+                    <artifactId>jsr305</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>2.2.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>1.10.19</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hamcrest</groupId>
+                    <artifactId>hamcrest-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp</groupId>
+            <artifactId>mockwebserver</artifactId>
+            <version>2.6.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <distributionManagement>
+        <repository>
+            <id>talanlabs-releases-repository</id>
+            <url>http://nexus.talanlabs.com/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>talanlabs-snapshots-repository</id>
+            <url>http://nexus.talanlabs.com/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>

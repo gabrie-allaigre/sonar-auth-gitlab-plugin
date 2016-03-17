@@ -1,7 +1,7 @@
 /*
- * GitHub Authentication for SonarQube
- * Copyright (C) 2016-2016 SonarSource SA
- * mailto:contact AT sonarsource DOT com
+ * SonarQube :: GitLab Auth Plugin
+ * Copyright (C) 2016-2016 Talanlabs
+ * gabriel.allaigre@talanlabs.com
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 @ParametersAreNonnullByDefault
-package org.sonarsource.auth.github;
+package com.synaptix.sonar.plugins.gitlab.auth;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 

@@ -1,46 +1,29 @@
 Sonar GitLab Plugin
 ===================
 
-Fork to https://github.com/SonarCommunity/sonar-github
+Fork to https://github.com/SonarSource/sonar-auth-github
 
 # Goal
 
-Add to each **commit** GitLab in a global commentary on the new anomalies added by this **commit** and add comment lines of modified files.
-
-Comment commits:
-![Comment commits](doc/comment_commits.jpg)
-
-Comment line:
-![Comment line](doc/comment_line.jpg)
-
-Add build line:
-![Add buids](doc/builds.jpg)
+Add GitLab OAuth login in login page.
 
 # Usage
 
 For add plugin in SonarQube :
 
-- Download last version http://nexus.talanlabs.com/service/local/repo_groups/public_release/content/com/synaptix/sonar-gitlab-plugin/1.6.5/sonar-gitlab-plugin-1.6.5.jar
+- Download last version http://nexus.talanlabs.com/service/local/repo_groups/public_release/content/com/synaptix/sonar-auth-gitlab-plugin/1.0.0/sonar-gitlab-plugin-1.0.0.jar
 - Copy file in extensions directory `SONARQUBE_HOME/extensions/plugins`
 - Restart SonarQube 
 
-# Command line
+# Configuration
 
-Example :
-
-``` shell
-mvn --batch-mode verify sonar:sonar -Dsonar.host.url=$SONAR_URL -Dsonar.analysis.mode=preview -Dsonar.issuesReport.console.enable=true -Dsonar.gitlab.commit_sha=$CI_BUILD_REF -Dsonar.gitlab.ref=CI_BUILD_REF_NAME
-```
+- Administration : **Settings** globals in SonarQube
 
 | Variable | Comment | Type |
 | -------- | ----------- | ---- |
-| sonar.gitlab.url | GitLab url | Administration, Variable |
-| sonar.gitlab.max_global_issues | Maximum number of anomalies to be displayed in the global comment |  Administration, Variable |
-| sonar.gitlab.user_token | Token of the user who can make reports on the project, either global or per project |  Administration, Project, Variable |
-| sonar.gitlab.project_id | Project ID in GitLab or internal id or namespace + name or namespace + path or url http or ssh url or url or web | Project, Variable |
-| sonar.gitlab.commit_sha | SHA of the commit comment | Variable |
-| sonar.gitlab.ref_name | Branch name or reference of the commit | Variable |
+| sonar.auth.gitlab.enabled | Enable Gitlab users to login. Value is ignored if client ID and secret are not defined |
+| sonar.auth.gitlab.url | URL to access GitLab | 
+| sonar.auth.gitlab.applicationId | Application ID provided by GitLab when registering the application |
+| sonar.auth.gitlab.secret | Token of the user who can make reports on the project, either global or per project |
+| sonar.auth.gitlab.allowUsersToSignUp | Allow new users to authenticate. When set to 'false', only existing users will be able to authenticate to the server |
 
-- Administration : **Settings** globals in SonarQube
-- Project : **Settings** of project in SonarQube
-- Variable : In an environment variable or in the `pom.xml` either from the command line with` -D`
