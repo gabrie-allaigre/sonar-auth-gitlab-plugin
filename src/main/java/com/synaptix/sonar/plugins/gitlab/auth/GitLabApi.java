@@ -20,7 +20,10 @@
 package com.synaptix.sonar.plugins.gitlab.auth;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
+import com.github.scribejava.core.extractors.AccessTokenExtractor;
+import com.github.scribejava.core.extractors.JsonTokenExtractor;
 import com.github.scribejava.core.model.OAuthConfig;
+import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 
@@ -37,6 +40,16 @@ public class GitLabApi extends DefaultApi20 {
     @Override
     public String getAccessTokenEndpoint() {
         return url + "/oauth/token";
+    }
+
+    @Override
+    public Verb getAccessTokenVerb() {
+        return Verb.POST;
+    }
+
+    @Override
+    public AccessTokenExtractor getAccessTokenExtractor() {
+        return new JsonTokenExtractor();
     }
 
     @Override

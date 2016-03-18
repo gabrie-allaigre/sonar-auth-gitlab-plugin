@@ -20,10 +20,7 @@
 package com.synaptix.sonar.plugins.gitlab.auth;
 
 import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.model.OAuthRequest;
-import com.github.scribejava.core.model.Token;
-import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.model.Verifier;
+import com.github.scribejava.core.model.*;
 import com.github.scribejava.core.oauth.OAuthService;
 import org.sonar.api.server.ServerSide;
 import org.sonar.api.server.authentication.Display;
@@ -78,23 +75,28 @@ public class GitLabIdentityProvider implements OAuth2IdentityProvider {
 
     @Override
     public void init(InitContext context) {
-        String state = context.generateCsrfState();
-        OAuthService scribe = prepareScribe(context).scope("user:email").state(state).build();
+        OAuthService scribe = prepareScribe(context).build();
         String url = scribe.getAuthorizationUrl(EMPTY_TOKEN);
+        System.out.println(url);
         context.redirectTo(url);
     }
 
     @Override
     public void callback(CallbackContext context) {
-        context.verifyCsrfState();
-
         HttpServletRequest request = context.getRequest();
         OAuthService scribe = prepareScribe(context).build();
         String oAuthVerifier = request.getParameter("code");
+
+        System.out.println(oAuthVerifier);
+
         Token accessToken = scribe.getAccessToken(EMPTY_TOKEN, new Verifier(oAuthVerifier));
+        System.out.println(accessToken);
 
         OAuthRequest userRequest = new OAuthRequest(Verb.GET, gitLabConfiguration.url() + "/api/v3/user", scribe);
         scribe.signRequest(accessToken, userRequest);
+
+        System.out.println(userRequest);
+        System.out.println(userRequest.getHeaders());
 
         com.github.scribejava.core.model.Response userResponse = userRequest.send();
         if (!userResponse.isSuccessful()) {
@@ -114,6 +116,6 @@ public class GitLabIdentityProvider implements OAuth2IdentityProvider {
             throw new IllegalStateException("GitLab Authentication is disabled");
         }
         return new ServiceBuilder().provider(new GitLabApi(gitLabConfiguration.url())).apiKey(gitLabConfiguration.applicationId()).apiSecret(gitLabConfiguration.secret())
-                .callback(context.getCallbackUrl());
+                .grantType(OAuthConstants.AUTHORIZATION_CODE).callback(context.getCallbackUrl());
     }
 }
