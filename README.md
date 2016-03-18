@@ -1,31 +1,29 @@
 Sonar Auth GitLab Plugin
 ==============================
 
-Fork to https://github.com/SonarSource/sonar-auth-github
+Forked from https://github.com/SonarSource/sonar-auth-github
 
 # Goal
 
 Enables user authentication and Single Sign-On via GitLab.
 
-Use GitLab OAuth login in SonarQube login page.
+Uses GitLab OAuth login in SonarQube login page.
 
 ![Signin](doc/signin.jpg)
 
 # Usage
 
-Only for SonarQube 5.4+.
-
-For add plugin in SonarQube :
+For SonarQube >=5.4:
 
 - Download last version http://nexus.talanlabs.com/service/local/repo_groups/public_release/content/com/synaptix/sonar-auth-gitlab-plugin/1.0.0/sonar-auth-gitlab-plugin-1.0.0.jar
 - Copy file in extensions directory `SONARQUBE_HOME/extensions/plugins`
 - Restart SonarQube 
 
-**Other Plugin : [Add Reporting in GitLab commit](https://gitlab.talanlabs.com/gabriel-allaigre/sonar-gitlab-plugin)**
+**Other Plugin: [Add Reporting in GitLab commit](https://gitlab.talanlabs.com/gabriel-allaigre/sonar-gitlab-plugin)**
 
 # Configuration
 
-- In Gitlab, create Application Oauth
+- In GitLab, create Application OAuth : Admin Settings -> **Application**
 
 Fill name SonarQube and fill redirect URI with 'https://mygitlab.com/oauth2/callback/gitlab' (replace url).
 
@@ -35,13 +33,13 @@ Copy Application Id and Secret in Settings of Sonarqube.
 
 ![Gitlab App](doc/gitlab_app.jpg)
 
-- In SonarQube : Administration : **Settings** globals in SonarQube
+- In SonarQube: Administration -> General Settings -> GitLab -> **Reporting**
 
 ![Sonar Settings](doc/sonar_settings.jpg)
 
 | Variable | Comment | Type |
 | -------- | ----------- | ---- |
-| sonar.auth.gitlab.enabled | Enable Gitlab users to login. Value is ignored if client ID and secret are not defined |
+| sonar.auth.gitlab.enabled | Enable GitLab users to login. Value is ignored if client ID and secret are not defined |
 | sonar.auth.gitlab.url | URL to access GitLab | 
 | sonar.auth.gitlab.applicationId | Application ID provided by GitLab when registering the application |
 | sonar.auth.gitlab.secret | Token of the user who can make reports on the project, either global or per project |
