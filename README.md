@@ -19,7 +19,7 @@ For add plugin in SonarQube :
 - Copy file in extensions directory `SONARQUBE_HOME/extensions/plugins`
 - Restart SonarQube 
 
-**Other Plugin : [Add Reportin in GitLab commit](https://gitlab.talanlabs.com/gabriel-allaigre/sonar-gitlab-plugin)**
+**Other Plugin : [Add Reporting in GitLab commit](https://gitlab.talanlabs.com/gabriel-allaigre/sonar-gitlab-plugin)**
 
 # Configuration
 
