@@ -10,7 +10,7 @@
 
     <groupId>com.synaptix</groupId>
     <artifactId>sonar-auth-gitlab-plugin</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
     <packaging>sonar-plugin</packaging>
     <name>SonarQube :: GitLab Auth Plugin</name>
     <description>GitLab Auth plugin</description>
