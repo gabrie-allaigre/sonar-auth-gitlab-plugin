@@ -8,7 +8,7 @@
         <version>28</version>
     </parent>
 
-    <groupId>com.synaptix.sonar.plugins.gitlab.auth</groupId>
+    <groupId>com.synaptix</groupId>
     <artifactId>sonar-auth-gitlab-plugin</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>sonar-plugin</packaging>
