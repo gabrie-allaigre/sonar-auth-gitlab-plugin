@@ -1,5 +1,5 @@
-Sonar GitLab Plugin
-===================
+Sonar GitLab Oauth Plugin
+=========================
 
 Fork to https://github.com/SonarSource/sonar-auth-github
 
@@ -7,7 +7,11 @@ Fork to https://github.com/SonarSource/sonar-auth-github
 
 Add GitLab OAuth login in login page.
 
+![Signin](doc/signin.jpg)
+
 # Usage
+
+Only for SonarQube 5.4+.
 
 For add plugin in SonarQube :
 
@@ -17,7 +21,19 @@ For add plugin in SonarQube :
 
 # Configuration
 
-- Administration : **Settings** globals in SonarQube
+- In Gitlab, create Application Oauth
+
+Fill name SonarQube and fill redirect URI with 'https://mygitlab.com/oauth2/callback/gitlab' (replace url).
+
+![Gitlab Add](doc/gitlab_add.jpg)
+
+Copy Application Id and Secret in Settings of Sonarqube.
+
+![Gitlab App](doc/gitlab_app.jpg)
+
+- In SonarQube : Administration : **Settings** globals in SonarQube
+
+![Sonar Settings](doc/sonar_settings.jpg)
 
 | Variable | Comment | Type |
 | -------- | ----------- | ---- |
@@ -26,4 +42,3 @@ For add plugin in SonarQube :
 | sonar.auth.gitlab.applicationId | Application ID provided by GitLab when registering the application |
 | sonar.auth.gitlab.secret | Token of the user who can make reports on the project, either global or per project |
 | sonar.auth.gitlab.allowUsersToSignUp | Allow new users to authenticate. When set to 'false', only existing users will be able to authenticate to the server |
-
