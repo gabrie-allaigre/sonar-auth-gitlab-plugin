@@ -33,7 +33,7 @@ Copy Application Id and Secret in Settings of Sonarqube.
 
 ![Gitlab App](doc/gitlab_app.jpg)
 
-- In SonarQube: Administration -> General Settings -> GitLab -> **Reporting**
+- In SonarQube: Administration -> General Settings -> GitLab -> **Authentication**
 
 ![Sonar Settings](doc/sonar_settings.jpg)
 
