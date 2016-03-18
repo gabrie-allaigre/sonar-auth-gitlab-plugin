@@ -5,6 +5,8 @@ Fork to https://github.com/SonarSource/sonar-auth-github
 
 # Goal
 
+Enables user authentication and Single Sign-On via GitLab.
+
 Use GitLab OAuth login in SonarQube login page.
 
 ![Signin](doc/signin.jpg)
