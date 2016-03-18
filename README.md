@@ -15,7 +15,7 @@ Only for SonarQube 5.4+.
 
 For add plugin in SonarQube :
 
-- Download last version http://nexus.talanlabs.com/service/local/repo_groups/public_release/content/com/synaptix/sonar-auth-gitlab-plugin/1.0.0/sonar-gitlab-plugin-1.0.0.jar
+- Download last version http://nexus.talanlabs.com/service/local/repo_groups/public_release/content/com/synaptix/sonar-auth-gitlab-plugin/1.0.0/sonar-auth-gitlab-plugin-1.0.0.jar
 - Copy file in extensions directory `SONARQUBE_HOME/extensions/plugins`
 - Restart SonarQube 
 
