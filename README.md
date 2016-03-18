@@ -1,11 +1,11 @@
-Sonar GitLab Oauth Plugin
-=========================
+Sonar Auth GitLab Plugin
+==============================
 
 Fork to https://github.com/SonarSource/sonar-auth-github
 
 # Goal
 
-Add GitLab OAuth login in login page.
+Use GitLab OAuth login in SonarQube login page.
 
 ![Signin](doc/signin.jpg)
 
@@ -18,6 +18,8 @@ For add plugin in SonarQube :
 - Download last version http://nexus.talanlabs.com/service/local/repo_groups/public_release/content/com/synaptix/sonar-auth-gitlab-plugin/1.0.0/sonar-auth-gitlab-plugin-1.0.0.jar
 - Copy file in extensions directory `SONARQUBE_HOME/extensions/plugins`
 - Restart SonarQube 
+
+**Other Plugin : [Add Reportin in GitLab commit](https://gitlab.talanlabs.com/gabriel-allaigre/sonar-gitlab-plugin)**
 
 # Configuration
 
