@@ -77,7 +77,6 @@ public class GitLabIdentityProvider implements OAuth2IdentityProvider {
     public void init(InitContext context) {
         OAuthService scribe = prepareScribe(context).build();
         String url = scribe.getAuthorizationUrl(EMPTY_TOKEN);
-        System.out.println(url);
         context.redirectTo(url);
     }
 
@@ -87,16 +86,10 @@ public class GitLabIdentityProvider implements OAuth2IdentityProvider {
         OAuthService scribe = prepareScribe(context).build();
         String oAuthVerifier = request.getParameter("code");
 
-        System.out.println(oAuthVerifier);
-
         Token accessToken = scribe.getAccessToken(EMPTY_TOKEN, new Verifier(oAuthVerifier));
-        System.out.println(accessToken);
 
         OAuthRequest userRequest = new OAuthRequest(Verb.GET, gitLabConfiguration.url() + "/api/v3/user", scribe);
         scribe.signRequest(accessToken, userRequest);
-
-        System.out.println(userRequest);
-        System.out.println(userRequest.getHeaders());
 
         com.github.scribejava.core.model.Response userResponse = userRequest.send();
         if (!userResponse.isSuccessful()) {
