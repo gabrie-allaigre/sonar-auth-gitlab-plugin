@@ -55,6 +55,10 @@ public class GitLabApi extends DefaultApi20 {
     @Override
     public String getAuthorizationUrl(OAuthConfig config) {
         Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback. GitLab does not support OOB");
-        return String.format(url + "/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code", config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
+        String url = String.format(this.url + "/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code", config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
+        if (config.hasScope()) {
+            url += "&scope=" + OAuthEncoder.encode(config.getScope());
+        }
+        return url;
     }
 }
