@@ -15,11 +15,11 @@ Uses GitLab OAuth login in SonarQube login page.
 
 For SonarQube >=5.4:
 
-- Download last version http://nexus.talanlabs.com/content/groups/public_release/com/synaptix/sonar-auth-gitlab-plugin/1.0.0/sonar-auth-gitlab-plugin-1.0.0.jar
+- Download last version https://github.com/gabrie-allaigre/sonar-auth-gitlab-plugin/releases/download/1.0.0/sonar-auth-gitlab-plugin-1.0.0.jar
 - Copy file in extensions directory `SONARQUBE_HOME/extensions/plugins`
 - Restart SonarQube 
 
-**Other Plugin: [Add Reporting in GitLab commit](https://gitlab.talanlabs.com/gabriel-allaigre/sonar-gitlab-plugin)**
+**Other Plugin: [Add Reporting in GitLab commit](https://github.com/gabrie-allaigre/sonar-gitlab-plugin)**
 
 # Configuration
 
