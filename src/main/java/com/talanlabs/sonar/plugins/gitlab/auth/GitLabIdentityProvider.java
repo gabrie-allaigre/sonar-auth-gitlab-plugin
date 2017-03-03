@@ -17,10 +17,14 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package com.synaptix.sonar.plugins.gitlab.auth;
+package com.talanlabs.sonar.plugins.gitlab.auth;
 
 import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.model.*;
+import com.github.scribejava.core.model.OAuthConstants;
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Token;
+import com.github.scribejava.core.model.Verb;
+import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.oauth.OAuthService;
 import org.sonar.api.server.ServerSide;
 import org.sonar.api.server.authentication.Display;

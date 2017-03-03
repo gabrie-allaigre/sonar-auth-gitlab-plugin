@@ -17,19 +17,18 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package com.synaptix.sonar.plugins.gitlab.auth;
+package com.talanlabs.sonar.plugins.gitlab.auth;
 
-import org.sonar.api.SonarPlugin;
+import org.sonar.api.Plugin;
 import org.sonar.api.config.PropertyDefinition;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.String.valueOf;
 import static org.sonar.api.PropertyType.BOOLEAN;
 
-public class GitLabAuthPlugin extends SonarPlugin {
+public class GitLabAuthPlugin implements Plugin {
 
     public static final String GITLAB_AUTH_ENABLED = "sonar.auth.gitlab.enabled";
     public static final String GITLAB_AUTH_URL = "sonar.auth.gitlab.url";
@@ -40,7 +39,7 @@ public class GitLabAuthPlugin extends SonarPlugin {
     public static final String CATEGORY = "gitlab";
     public static final String SUBCATEGORY = "authentication";
 
-    private static List<PropertyDefinition> definitions() {
+    static List<PropertyDefinition> definitions() {
         return Arrays.asList(PropertyDefinition.builder(GITLAB_AUTH_ENABLED).name("Enabled").description("Enable Gitlab users to login. Value is ignored if client ID and secret are not defined.")
                         .category(CATEGORY).subCategory(SUBCATEGORY).type(BOOLEAN).defaultValue(valueOf(false)).index(1).build(),
                 PropertyDefinition.builder(GITLAB_AUTH_URL).name("GitLab url").description("URL to access GitLab.").category(CATEGORY).subCategory(SUBCATEGORY).defaultValue("https://gitlab.com")
@@ -54,10 +53,7 @@ public class GitLabAuthPlugin extends SonarPlugin {
     }
 
     @Override
-    public List getExtensions() {
-        List extensions = new ArrayList();
-        extensions.addAll(Arrays.asList(GitLabConfiguration.class, GitLabIdentityProvider.class));
-        extensions.addAll(definitions());
-        return extensions;
+    public void define(Context context) {
+        context.addExtensions(GitLabConfiguration.class, GitLabIdentityProvider.class).addExtensions(definitions());
     }
 }
