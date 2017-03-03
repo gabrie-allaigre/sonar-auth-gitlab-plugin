@@ -15,7 +15,7 @@ Uses GitLab OAuth login in SonarQube login page.
 
 For SonarQube >=5.6:
 
-- Download last version https://github.com/gabrie-allaigre/sonar-auth-gitlab-plugin/releases/download/2.0.0/sonar-auth-gitlab-plugin-2.0.0.jar
+- Download last version https://github.com/gabrie-allaigre/sonar-auth-gitlab-plugin/releases/download/1.1.0/sonar-auth-gitlab-plugin-1.1.0.jar
 - Copy file in extensions directory `SONARQUBE_HOME/extensions/plugins`
 - Restart SonarQube 
 
