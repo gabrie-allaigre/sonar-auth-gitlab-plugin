@@ -1,5 +1,5 @@
 /*
- * SonarQube :: GitLab Auth Plugin
+ * SonarQube :: GitLab Plugin
  * Copyright (C) 2016-2017 Talanlabs
  * gabriel.allaigre@talanlabs.com
  *
@@ -19,30 +19,19 @@
  */
 package com.talanlabs.sonar.plugins.gitlab.auth;
 
-import com.google.gson.Gson;
+import org.junit.Test;
+import org.sonar.api.Plugin;
+import org.sonar.api.utils.Version;
 
-/**
- * Lite representation of JSON response of GET https://gitlab.com/user
- */
-public class GsonUser {
-  private String username;
-  private String name;
-  private String email;
+import static org.assertj.core.api.Assertions.assertThat;
 
-  public String getUsername() {
-    return username;
-  }
+public class GitLabAuthPluginTest {
 
-  public String getName() {
-    return name;
-  }
+    @Test
+    public void uselessTest() {
+        Plugin.Context context = new Plugin.Context(Version.parse("5.6"));
+        new GitLabAuthPlugin().define(context);
+        assertThat(context.getExtensions().size()).isGreaterThan(1);
+    }
 
-  public String getEmail() {
-    return email;
-  }
-
-  public static GsonUser parse(String json) {
-    Gson gson = new Gson();
-    return gson.fromJson(json, GsonUser.class);
-  }
 }

@@ -50,3 +50,7 @@ Copy Application Id and Secret in Settings of Sonarqube.
 | sonar.auth.gitlab.applicationId | Application ID provided by GitLab when registering the application |
 | sonar.auth.gitlab.secret | Token of the user who can make reports on the project, either global or per project |
 | sonar.auth.gitlab.allowUsersToSignUp | Allow new users to authenticate. When set to 'false', only existing users will be able to authenticate to the server |
+
+# Sonarqube
+
+https://sonarqube.com/dashboard?id=com.talanlabs%3Asonar-auth-gitlab-plugin
