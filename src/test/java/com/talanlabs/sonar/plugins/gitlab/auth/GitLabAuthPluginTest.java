@@ -1,5 +1,5 @@
 /*
- * SonarQube :: GitLab Plugin
+ * SonarQube :: GitLab Auth Plugin
  * Copyright (C) 2016-2017 Talanlabs
  * gabriel.allaigre@talanlabs.com
  *
