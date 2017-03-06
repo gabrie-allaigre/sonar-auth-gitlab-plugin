@@ -9,7 +9,7 @@ Enables user authentication and Single Sign-On via GitLab.
 
 Uses GitLab OAuth login in SonarQube login page.
 
-![Signin](doc/signin.jpg)
+![Signin](doc/sonar_signin.jpg)
 
 # Usage
 
