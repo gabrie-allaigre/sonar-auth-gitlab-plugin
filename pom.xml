@@ -25,6 +25,8 @@
 
         <!-- used for deployment to SonarSource Artifactory -->
         <gitRepositoryName>sonar-auth-gitlab-plugin</gitRepositoryName>
+      <!-- Release: enable publication to Bintray -->
+      <artifactsToPublish>${project.groupId}:${project.artifactId}:jar</artifactsToPublish>
 
         <jacoco-maven-plugin.version>0.7.5.201505241946</jacoco-maven-plugin.version>
         <jacoco.ut.execution.data.file>${project.build.directory}/coverage-reports/jacoco-ut.exec
