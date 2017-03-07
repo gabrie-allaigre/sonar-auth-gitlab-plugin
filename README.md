@@ -1,7 +1,7 @@
 Sonar Auth GitLab Plugin
 ==============================
 
-![https://api.travis-ci.org/gabrie-allaigre/sonar-auth-gitlab-plugin.png?branch=master](https://travis-ci.org/gabrie-allaigre/sonar-auth-gitlab-plugin)
+![https://travis-ci.org/gabrie-allaigre/sonar-auth-gitlab-plugin](https://api.travis-ci.org/gabrie-allaigre/sonar-auth-gitlab-plugin.png?branch=master)
 
 Forked from https://github.com/SonarSource/sonar-auth-github
 
