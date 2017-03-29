@@ -15,11 +15,9 @@ Uses GitLab OAuth login in SonarQube login page.
 
 # Usage
 
-Rc version https://github.com/gabrie-allaigre/sonar-auth-gitlab-plugin/releases/download/1.2.1-rc1/sonar-auth-gitlab-plugin-1.2.1-rc1.jar
-
 For SonarQube >=5.6:
 
-- Download last version https://github.com/gabrie-allaigre/sonar-auth-gitlab-plugin/releases/download/1.2.0/sonar-auth-gitlab-plugin-1.2.0.jar
+- Download last version https://github.com/gabrie-allaigre/sonar-auth-gitlab-plugin/releases/download/1.2.0/sonar-auth-gitlab-plugin-1.2.1.jar
 - Copy file in extensions directory `SONARQUBE_HOME/extensions/plugins`
 - Restart SonarQube 
 
@@ -32,6 +30,8 @@ For SonarQube >=5.4:
 **Other Plugin: [Add Reporting in GitLab commit](https://github.com/gabrie-allaigre/sonar-gitlab-plugin)**
 
 # Configuration
+
+**Warning : In SonarQube, must have `Server base URL` with HTTPS**
 
 - In GitLab, create Application OAuth : Admin Settings -> **Application**
 
