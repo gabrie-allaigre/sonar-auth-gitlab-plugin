@@ -35,13 +35,13 @@ For SonarQube >=5.4:
 
 - In GitLab, create Application OAuth : Admin Settings -> **Application**
 
-Fill name SonarQube and fill redirect URI with 'https://mysonar.com/oauth2/callback/gitlab' (replace url).
+Fill name SonarQube and fill redirect URI with 'https://mysonar.com/oauth2/callback/gitlab' (replace url) and check `read_user`
 
-![Gitlab Add](doc/gitlab_add.jpg)
+![Gitlab Add](doc/gitlab_add.png)
 
 Copy Application Id and Secret in Settings of Sonarqube.
 
-![Gitlab App](doc/gitlab_app.jpg)
+![Gitlab App](doc/gitlab_app.png)
 
 - In SonarQube: Administration -> General Settings -> GitLab -> **Authentication**
 
