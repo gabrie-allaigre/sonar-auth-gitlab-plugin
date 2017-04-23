@@ -36,6 +36,8 @@ public class GitLabAuthPlugin implements Plugin {
     public static final String GITLAB_AUTH_APPLICATIONID = "sonar.auth.gitlab.applicationId";
     public static final String GITLAB_AUTH_SECRET = "sonar.auth.gitlab.secret";
     public static final String GITLAB_AUTH_ALLOWUSERSTOSIGNUP = "sonar.auth.gitlab.allowUsersToSignUp";
+    public static final String GITLAB_AUTH_SCOPE = "sonar.auth.gitlab.scope";
+
 
     public static final String CATEGORY = "gitlab";
     public static final String SUBCATEGORY = "authentication";
@@ -50,7 +52,10 @@ public class GitLabAuthPlugin implements Plugin {
                 PropertyDefinition.builder(GITLAB_AUTH_SECRET).name("Secret").description("Secret provided by GitLab when registering the application.").category(CATEGORY).subCategory(SUBCATEGORY)
                         .type(PropertyType.PASSWORD).index(4).build(), PropertyDefinition.builder(GITLAB_AUTH_ALLOWUSERSTOSIGNUP).name("Allow users to sign-up")
                         .description("Allow new users to authenticate. When set to 'false', only existing users will be able to authenticate to the server.").category(CATEGORY)
-                        .subCategory(SUBCATEGORY).type(BOOLEAN).defaultValue(valueOf(true)).index(5).build());
+                        .subCategory(SUBCATEGORY).type(BOOLEAN).defaultValue(valueOf(true)).index(5).build(),
+                PropertyDefinition.builder(GITLAB_AUTH_SCOPE).name("Gitlab access scope").description("Scope provided by GitLab when access user info.").category(CATEGORY)
+                        .subCategory(SUBCATEGORY).defaultValue(valueOf("read_user")).index(6).build()
+                );
     }
 
     @Override

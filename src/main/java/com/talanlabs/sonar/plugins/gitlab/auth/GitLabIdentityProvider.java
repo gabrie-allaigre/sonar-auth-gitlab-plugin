@@ -113,6 +113,6 @@ public class GitLabIdentityProvider implements OAuth2IdentityProvider {
             throw new IllegalStateException("GitLab Authentication is disabled");
         }
         return new ServiceBuilder().provider(new GitLabApi(gitLabConfiguration.url())).apiKey(gitLabConfiguration.applicationId()).apiSecret(gitLabConfiguration.secret())
-                .grantType(OAuthConstants.AUTHORIZATION_CODE).scope("read_user").callback(context.getCallbackUrl());
+                .grantType(OAuthConstants.AUTHORIZATION_CODE).scope(gitLabConfiguration.scope()).callback(context.getCallbackUrl());
     }
 }

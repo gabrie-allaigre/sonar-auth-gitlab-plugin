@@ -51,6 +51,8 @@ public class GitLabIdentityProviderTest {
         Mockito.when(configuration.applicationId()).thenReturn("123");
         Mockito.when(configuration.secret()).thenReturn("456");
         Mockito.when(configuration.url()).thenReturn("http://server");
+        Mockito.when(configuration.scope()).thenReturn("read_user");
+
         GitLabIdentityProvider gitLabIdentityProvider = new GitLabIdentityProvider(configuration);
 
         OAuth2IdentityProvider.InitContext initContext = Mockito.mock(OAuth2IdentityProvider.InitContext.class);

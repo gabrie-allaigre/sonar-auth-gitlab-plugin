@@ -48,6 +48,10 @@ public class GitLabConfiguration {
         return settings.getString(GitLabAuthPlugin.GITLAB_AUTH_SECRET);
     }
 
+    public String scope() {
+        return settings.getString(GitLabAuthPlugin.GITLAB_AUTH_SCOPE);
+    }
+
     public boolean isEnabled() {
         return settings.getBoolean(GitLabAuthPlugin.GITLAB_AUTH_ENABLED) && applicationId() != null && secret() != null;
     }
