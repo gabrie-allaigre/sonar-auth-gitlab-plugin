@@ -110,7 +110,7 @@ public class GitLabIdentityProvider implements OAuth2IdentityProvider {
         }
         ServiceBuilder serviceBuilder = new ServiceBuilder().provider(new GitLabApi(gitLabConfiguration.url())).apiKey(gitLabConfiguration.applicationId()).apiSecret(gitLabConfiguration.secret())
                 .grantType(OAuthConstants.AUTHORIZATION_CODE).callback(context.getCallbackUrl());
-        if (gitLabConfiguration.scope() != null && gitLabConfiguration.scope().trim().length() > 0) {
+        if (gitLabConfiguration.scope() != null && !GitLabAuthPlugin.NONE_SCOPE.equals(gitLabConfiguration.scope())) {
             serviceBuilder.scope(gitLabConfiguration.scope());
         }
         return serviceBuilder;

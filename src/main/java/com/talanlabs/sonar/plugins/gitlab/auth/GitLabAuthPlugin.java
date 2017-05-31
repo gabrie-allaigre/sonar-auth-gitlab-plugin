@@ -45,6 +45,7 @@ public class GitLabAuthPlugin implements Plugin {
 
     public static final String READ_USER_SCOPE = "read_user";
     public static final String API_SCOPE = "api";
+    public static final String NONE_SCOPE = "none";
 
     static List<PropertyDefinition> definitions() {
         return Arrays.asList(PropertyDefinition.builder(GITLAB_AUTH_ENABLED).name("Enabled").description("Enable Gitlab users to login. Value is ignored if client ID and secret are not defined.")
@@ -59,7 +60,7 @@ public class GitLabAuthPlugin implements Plugin {
                         .subCategory(SUBCATEGORY).type(BOOLEAN).defaultValue(valueOf(true)).index(5).build(),
                 PropertyDefinition.builder(GITLAB_AUTH_SCOPE).name("Gitlab access scope")
                         .description("Scope provided by GitLab when access user info.").category(CATEGORY)
-                        .subCategory(SUBCATEGORY).type(SINGLE_SELECT_LIST).options("", READ_USER_SCOPE, API_SCOPE).defaultValue(API_SCOPE).index(6).build());
+                        .subCategory(SUBCATEGORY).type(SINGLE_SELECT_LIST).options(NONE_SCOPE, READ_USER_SCOPE, API_SCOPE).defaultValue(READ_USER_SCOPE).index(6).build());
     }
 
     @Override
