@@ -7,9 +7,11 @@ Inspired by https://github.com/SonarSource/sonar-auth-github
 
 **The version 1.2.1 is directly in the SonarQube update center**
 
-**Version 1.3.0-SNAPSHOT**
+**Version 1.2.2-rc1**
 
 - Add option to change scope for GitLab (since 9.2, scope is api)
+
+Download 1.2.2-rc1 version https://github.com/gabrie-allaigre/sonar-auth-gitlab-plugin/releases/download/1.2.2-rc1/sonar-auth-gitlab-plugin-1.2.2-rc1.jar
 
 # Goal
 
@@ -60,7 +62,7 @@ Copy Application Id and Secret in Settings of Sonarqube.
 | sonar.auth.gitlab.applicationId | Application ID provided by GitLab when registering the application |
 | sonar.auth.gitlab.secret | Token of the user who can make reports on the project, either global or per project |
 | sonar.auth.gitlab.allowUsersToSignUp | Allow new users to authenticate. When set to 'false', only existing users will be able to authenticate to the server |
-| sonar.auth.gitlab.scope | Scope provided by GitLab when access user info, either global or per project |
+| sonar.auth.gitlab.scope | Scope provided by GitLab when access user info, either global or per project, default read_user |
 
 # Sonarqube
 
