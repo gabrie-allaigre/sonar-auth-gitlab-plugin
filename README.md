@@ -3,7 +3,13 @@ Sonar Auth GitLab Plugin
 
 [![https://travis-ci.org/gabrie-allaigre/sonar-auth-gitlab-plugin](https://api.travis-ci.org/gabrie-allaigre/sonar-auth-gitlab-plugin.png?branch=master)](https://travis-ci.org/gabrie-allaigre/sonar-auth-gitlab-plugin)
 
-Forked from https://github.com/SonarSource/sonar-auth-github
+Inspired by https://github.com/SonarSource/sonar-auth-github
+
+**The version 1.2.1 is directly in the SonarQube update center**
+
+**Version 1.3.0-SNAPSHOT**
+
+- Add option to change scope for GitLab (since 9.2, scope is api)
 
 # Goal
 
@@ -35,13 +41,13 @@ For SonarQube >=5.4:
 
 - In GitLab, create Application OAuth : Admin Settings -> **Application**
 
-Fill name SonarQube and fill redirect URI with 'https://mysonar.com/oauth2/callback/gitlab' (replace url) and check `read_user`
+Fill name SonarQube and fill redirect URI with 'https://mygitlab.com/oauth2/callback/gitlab' (replace url).
 
-![Gitlab Add](doc/gitlab_add.png)
+![Gitlab Add](doc/gitlab_add.jpg)
 
 Copy Application Id and Secret in Settings of Sonarqube.
 
-![Gitlab App](doc/gitlab_app.png)
+![Gitlab App](doc/gitlab_app.jpg)
 
 - In SonarQube: Administration -> General Settings -> GitLab -> **Authentication**
 
@@ -54,6 +60,7 @@ Copy Application Id and Secret in Settings of Sonarqube.
 | sonar.auth.gitlab.applicationId | Application ID provided by GitLab when registering the application |
 | sonar.auth.gitlab.secret | Token of the user who can make reports on the project, either global or per project |
 | sonar.auth.gitlab.allowUsersToSignUp | Allow new users to authenticate. When set to 'false', only existing users will be able to authenticate to the server |
+| sonar.auth.gitlab.scope | Token of the user who can make reports on the project, either global or per project |
 
 # Sonarqube
 

@@ -20,11 +20,7 @@
 package com.talanlabs.sonar.plugins.gitlab.auth;
 
 import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.model.OAuthConstants;
-import com.github.scribejava.core.model.OAuthRequest;
-import com.github.scribejava.core.model.Token;
-import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.model.Verifier;
+import com.github.scribejava.core.model.*;
 import com.github.scribejava.core.oauth.OAuthService;
 import org.sonar.api.server.ServerSide;
 import org.sonar.api.server.authentication.Display;
@@ -112,7 +108,11 @@ public class GitLabIdentityProvider implements OAuth2IdentityProvider {
         if (!isEnabled()) {
             throw new IllegalStateException("GitLab Authentication is disabled");
         }
-        return new ServiceBuilder().provider(new GitLabApi(gitLabConfiguration.url())).apiKey(gitLabConfiguration.applicationId()).apiSecret(gitLabConfiguration.secret())
-                .grantType(OAuthConstants.AUTHORIZATION_CODE).scope(gitLabConfiguration.scope()).callback(context.getCallbackUrl());
+        ServiceBuilder serviceBuilder = new ServiceBuilder().provider(new GitLabApi(gitLabConfiguration.url())).apiKey(gitLabConfiguration.applicationId()).apiSecret(gitLabConfiguration.secret())
+                .grantType(OAuthConstants.AUTHORIZATION_CODE).callback(context.getCallbackUrl());
+        if (gitLabConfiguration.scope() != null && gitLabConfiguration.scope().trim().length() > 0) {
+            serviceBuilder.scope(gitLabConfiguration.scope());
+        }
+        return serviceBuilder;
     }
 }

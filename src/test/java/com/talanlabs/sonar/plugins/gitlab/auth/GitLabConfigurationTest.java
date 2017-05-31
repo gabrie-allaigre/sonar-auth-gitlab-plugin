@@ -61,5 +61,9 @@ public class GitLabConfigurationTest {
         Assertions.assertThat(config.allowUsersToSignUp()).isTrue();
         settings.setProperty(GitLabAuthPlugin.GITLAB_AUTH_ALLOWUSERSTOSIGNUP, "false");
         Assertions.assertThat(config.allowUsersToSignUp()).isFalse();
+
+        Assertions.assertThat(config.scope()).isEqualTo(GitLabAuthPlugin.API_SCOPE);
+        settings.setProperty(GitLabAuthPlugin.GITLAB_AUTH_SCOPE, GitLabAuthPlugin.READ_USER_SCOPE);
+        Assertions.assertThat(config.scope()).isEqualTo(GitLabAuthPlugin.READ_USER_SCOPE);
     }
 }

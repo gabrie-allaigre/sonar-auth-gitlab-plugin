@@ -44,15 +44,52 @@ public class GitLabIdentityProviderTest {
     }
 
     @Test
-    public void testInitSuccess() {
+    public void testInitSuccess1() {
         GitLabConfiguration configuration = Mockito.mock(GitLabConfiguration.class);
         Mockito.when(configuration.isEnabled()).thenReturn(true);
         Mockito.when(configuration.allowUsersToSignUp()).thenReturn(true);
         Mockito.when(configuration.applicationId()).thenReturn("123");
         Mockito.when(configuration.secret()).thenReturn("456");
         Mockito.when(configuration.url()).thenReturn("http://server");
-        Mockito.when(configuration.scope()).thenReturn("read_user");
+        Mockito.when(configuration.scope()).thenReturn("");
+        GitLabIdentityProvider gitLabIdentityProvider = new GitLabIdentityProvider(configuration);
 
+        OAuth2IdentityProvider.InitContext initContext = Mockito.mock(OAuth2IdentityProvider.InitContext.class);
+        Mockito.when(initContext.getCallbackUrl()).thenReturn("http://server/callback");
+
+        gitLabIdentityProvider.init(initContext);
+
+        Mockito.verify(initContext).redirectTo("http://server/oauth/authorize?client_id=123&redirect_uri=http%3A%2F%2Fserver%2Fcallback&response_type=code");
+    }
+
+    @Test
+    public void testInitSuccess2() {
+        GitLabConfiguration configuration = Mockito.mock(GitLabConfiguration.class);
+        Mockito.when(configuration.isEnabled()).thenReturn(true);
+        Mockito.when(configuration.allowUsersToSignUp()).thenReturn(true);
+        Mockito.when(configuration.applicationId()).thenReturn("123");
+        Mockito.when(configuration.secret()).thenReturn("456");
+        Mockito.when(configuration.url()).thenReturn("http://server");
+        Mockito.when(configuration.scope()).thenReturn(GitLabAuthPlugin.API_SCOPE);
+        GitLabIdentityProvider gitLabIdentityProvider = new GitLabIdentityProvider(configuration);
+
+        OAuth2IdentityProvider.InitContext initContext = Mockito.mock(OAuth2IdentityProvider.InitContext.class);
+        Mockito.when(initContext.getCallbackUrl()).thenReturn("http://server/callback");
+
+        gitLabIdentityProvider.init(initContext);
+
+        Mockito.verify(initContext).redirectTo("http://server/oauth/authorize?client_id=123&redirect_uri=http%3A%2F%2Fserver%2Fcallback&response_type=code&scope=api");
+    }
+
+    @Test
+    public void testInitSuccess3() {
+        GitLabConfiguration configuration = Mockito.mock(GitLabConfiguration.class);
+        Mockito.when(configuration.isEnabled()).thenReturn(true);
+        Mockito.when(configuration.allowUsersToSignUp()).thenReturn(true);
+        Mockito.when(configuration.applicationId()).thenReturn("123");
+        Mockito.when(configuration.secret()).thenReturn("456");
+        Mockito.when(configuration.url()).thenReturn("http://server");
+        Mockito.when(configuration.scope()).thenReturn(GitLabAuthPlugin.READ_USER_SCOPE);
         GitLabIdentityProvider gitLabIdentityProvider = new GitLabIdentityProvider(configuration);
 
         OAuth2IdentityProvider.InitContext initContext = Mockito.mock(OAuth2IdentityProvider.InitContext.class);
