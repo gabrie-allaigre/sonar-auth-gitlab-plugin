@@ -5,7 +5,7 @@ Sonar Auth GitLab Plugin
 
 Inspired by https://github.com/SonarSource/sonar-auth-github
 
-**The version 1.2.1 is directly in the SonarQube update center**
+**The version 1.2.2 is directly in the SonarQube update center**
 
 **Version 1.2.2**
 
