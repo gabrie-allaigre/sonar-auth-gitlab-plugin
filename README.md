@@ -7,11 +7,11 @@ Inspired by https://github.com/SonarSource/sonar-auth-github
 
 **The version 1.2.1 is directly in the SonarQube update center**
 
-**Version 1.2.2-rc1**
+**Version 1.2.2**
 
 - Add option to change scope for GitLab (since 9.2, scope is api)
 
-Download 1.2.2-rc1 version https://github.com/gabrie-allaigre/sonar-auth-gitlab-plugin/releases/download/1.2.2-rc1/sonar-auth-gitlab-plugin-1.2.2-rc1.jar
+Download 1.2.2 version https://github.com/gabrie-allaigre/sonar-auth-gitlab-plugin/releases/download/1.2.2/sonar-auth-gitlab-plugin-1.2.2.jar
 
 # Goal
 
@@ -25,7 +25,7 @@ Uses GitLab OAuth login in SonarQube login page.
 
 For SonarQube >=5.6:
 
-- Download last version https://github.com/gabrie-allaigre/sonar-auth-gitlab-plugin/releases/download/1.2.1/sonar-auth-gitlab-plugin-1.2.1.jar
+- Download last version https://github.com/gabrie-allaigre/sonar-auth-gitlab-plugin/releases/download/1.2.2/sonar-auth-gitlab-plugin-1.2.2.jar
 - Copy file in extensions directory `SONARQUBE_HOME/extensions/plugins`
 - Restart SonarQube 
 
