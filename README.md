@@ -66,4 +66,4 @@ Copy Application Id and Secret in Settings of Sonarqube.
 
 # Sonarqube
 
-https://sonarqube.com/dashboard?id=com.talanlabs%3Asonar-auth-gitlab-plugin
+https://sonarcloud.io/dashboard?id=com.talanlabs%3Asonar-auth-gitlab-plugin
