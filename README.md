@@ -64,6 +64,14 @@ Copy Application Id and Secret in Settings of Sonarqube.
 | sonar.auth.gitlab.allowUsersToSignUp | Allow new users to authenticate. When set to 'false', only existing users will be able to authenticate to the server |
 | sonar.auth.gitlab.scope | Scope provided by GitLab when access user info, either global or per project, default read_user |
 
+- On your server import Gitlab SSL certificate into the JRE used by SonarQube
+
+If you don't already have you certificate on the SonarQube server, run `openssl s_client -connect mygitlab.com:443 -showcerts > /home/${USER}/mygitlab.crt`
+
+Import it into your JRE cacerts (you can check from the "System Info" page in the Administration section of your sonarqube instance), running `sudo $JDK8/bin/keytool -import -file ~/mygitlab.crt -keystore $JDK8/jre/lib/security/cacerts -alias mygitlab`.
+
+Restart your SonarQube instance.
+
 # Sonarqube
 
 https://sonarcloud.io/dashboard?id=com.talanlabs%3Asonar-auth-gitlab-plugin
