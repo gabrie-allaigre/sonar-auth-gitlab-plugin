@@ -65,5 +65,9 @@ public class GitLabConfigurationTest {
         Assertions.assertThat(config.scope()).isEqualTo(GitLabAuthPlugin.READ_USER_SCOPE);
         settings.setProperty(GitLabAuthPlugin.GITLAB_AUTH_SCOPE, GitLabAuthPlugin.API_SCOPE);
         Assertions.assertThat(config.scope()).isEqualTo(GitLabAuthPlugin.API_SCOPE);
+
+        Assertions.assertThat(config.groups()).isNull();
+        settings.setProperty(GitLabAuthPlugin.GITLAB_AUTH_GROUPS, "user");
+        Assertions.assertThat(config.groups()).isEqualTo("user");
     }
 }

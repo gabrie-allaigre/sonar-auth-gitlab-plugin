@@ -60,4 +60,7 @@ public class GitLabConfiguration {
         return settings.getBoolean(GitLabAuthPlugin.GITLAB_AUTH_ALLOWUSERSTOSIGNUP);
     }
 
+    public String groups() {
+        return settings.getString(GitLabAuthPlugin.GITLAB_AUTH_GROUPS);
+    }
 }

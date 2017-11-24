@@ -38,6 +38,7 @@ public class GitLabAuthPlugin implements Plugin {
     public static final String GITLAB_AUTH_SECRET = "sonar.auth.gitlab.secret";
     public static final String GITLAB_AUTH_ALLOWUSERSTOSIGNUP = "sonar.auth.gitlab.allowUsersToSignUp";
     public static final String GITLAB_AUTH_SCOPE = "sonar.auth.gitlab.scope";
+    public static final String GITLAB_AUTH_GROUPS = "sonar.auth.gitlab.groups";
 
 
     public static final String CATEGORY = "gitlab";
@@ -60,7 +61,10 @@ public class GitLabAuthPlugin implements Plugin {
                         .subCategory(SUBCATEGORY).type(BOOLEAN).defaultValue(valueOf(true)).index(5).build(),
                 PropertyDefinition.builder(GITLAB_AUTH_SCOPE).name("Gitlab access scope")
                         .description("Scope provided by GitLab when access user info.").category(CATEGORY)
-                        .subCategory(SUBCATEGORY).type(SINGLE_SELECT_LIST).options(NONE_SCOPE, READ_USER_SCOPE, API_SCOPE).defaultValue(READ_USER_SCOPE).index(6).build());
+                        .subCategory(SUBCATEGORY).type(SINGLE_SELECT_LIST).options(NONE_SCOPE, READ_USER_SCOPE, API_SCOPE).defaultValue(READ_USER_SCOPE).index(6).build(),
+                PropertyDefinition.builder(GITLAB_AUTH_GROUPS).name("Groups").description("Set groups for user").category(CATEGORY)
+                        .subCategory(SUBCATEGORY).index(7).build()
+        );
     }
 
     @Override

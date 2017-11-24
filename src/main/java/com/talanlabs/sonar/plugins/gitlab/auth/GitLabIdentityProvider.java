@@ -30,6 +30,9 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import static java.lang.String.format;
 
@@ -99,8 +102,14 @@ public class GitLabIdentityProvider implements OAuth2IdentityProvider {
         LOGGER.trace("User response received : %s", userResponseBody);
         GsonUser gsonUser = GsonUser.parse(userResponseBody);
 
-        UserIdentity userIdentity = UserIdentity.builder().setProviderLogin(gsonUser.getUsername()).setLogin(gsonUser.getUsername()).setName(gsonUser.getName()).setEmail(gsonUser.getEmail()).build();
-        context.authenticate(userIdentity);
+        UserIdentity.Builder builder = UserIdentity.builder().setProviderLogin(gsonUser.getUsername()).setLogin(gsonUser.getUsername()).setName(gsonUser.getName()).setEmail(gsonUser.getEmail());
+
+        if (gitLabConfiguration.groups() != null && !gitLabConfiguration.groups().trim().isEmpty()) {
+            Set<String> groups = new HashSet<>(Arrays.asList(gitLabConfiguration.groups().split(",")));
+            builder.setGroups(groups);
+        }
+
+        context.authenticate(builder.build());
         context.redirectToRequestedPage();
     }
 
