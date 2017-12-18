@@ -17,7 +17,7 @@
     <url>https://github.com/gabrie-allaigre/sonar-auth-gitlab-plugin</url>
     <properties>
         <license.mailto>gabriel.allaigre@talanlabs.com</license.mailto>
-        <license.owner>Talanlabs</license.owner>
+        <license.owner>TalanLabs</license.owner>
 
         <sonar.version>5.6</sonar.version>
         <sonar.pluginName>GitLab Auth</sonar.pluginName>
@@ -34,10 +34,12 @@
 
         <sonar.jacoco.reportPath>${jacoco.ut.execution.data.file}</sonar.jacoco.reportPath>
         <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
+
+        <java-gitlab-api.version>1.4.0</java-gitlab-api.version>
     </properties>
     <inceptionYear>2016</inceptionYear>
     <organization>
-        <name>Talanlabs</name>
+        <name>TalanLabs</name>
         <url>http://www.talanlabs.com</url>
     </organization>
     <licenses>
@@ -52,6 +54,11 @@
             <id>gabriel.allaigre@talanlabs.com</id>
             <name>Gabriel Allaigre</name>
             <email>gabriel.allaigre@talanlabs.com</email>
+        </developer>
+        <developer>
+            <id>nicolas.poste@talanlabs.com</id>
+            <name>Nicolas Poste</name>
+            <email>nicolas.poste@talanlabs.com</email>
         </developer>
     </developers>
     <contributors>
@@ -110,7 +117,11 @@
             <version>${sonar.version}</version>
             <scope>provided</scope>
         </dependency>
-
+        <dependency>
+            <groupId>com.talanlabs</groupId>
+            <artifactId>java-gitlab-api</artifactId>
+            <version>${java-gitlab-api.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.github.scribejava</groupId>
             <artifactId>scribejava-apis</artifactId>

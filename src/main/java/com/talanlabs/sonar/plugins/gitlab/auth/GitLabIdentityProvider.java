@@ -1,6 +1,6 @@
 /*
  * SonarQube :: GitLab Auth Plugin
- * Copyright (C) 2016-2017 Talanlabs
+ * Copyright (C) 2016-2017 TalanLabs
  * gabriel.allaigre@talanlabs.com
  *
  * This program is free software; you can redistribute it and/or
@@ -19,22 +19,32 @@
  */
 package com.talanlabs.sonar.plugins.gitlab.auth;
 
+import static java.lang.String.format;
+
 import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.model.*;
+import com.github.scribejava.core.model.OAuthConstants;
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Token;
+import com.github.scribejava.core.model.Verb;
+import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.oauth.OAuthService;
+import com.talanlabs.gitlab.api.Paged;
+import com.talanlabs.gitlab.api.v3.GitLabAPI;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import javax.servlet.http.HttpServletRequest;
 import org.sonar.api.server.ServerSide;
 import org.sonar.api.server.authentication.Display;
 import org.sonar.api.server.authentication.OAuth2IdentityProvider;
 import org.sonar.api.server.authentication.UserIdentity;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
-import static java.lang.String.format;
 
 @ServerSide
 public class GitLabIdentityProvider implements OAuth2IdentityProvider {
@@ -91,7 +101,7 @@ public class GitLabIdentityProvider implements OAuth2IdentityProvider {
 
         Token accessToken = scribe.getAccessToken(EMPTY_TOKEN, new Verifier(oAuthVerifier));
 
-        OAuthRequest userRequest = new OAuthRequest(Verb.GET, gitLabConfiguration.url() + "/api/v3/user", scribe);
+        OAuthRequest userRequest =  new OAuthRequest(Verb.GET, gitLabConfiguration.url() + "/api/" + gitLabConfiguration.apiVersion() + "/user", scribe);
         scribe.signRequest(accessToken, userRequest);
 
         com.github.scribejava.core.model.Response userResponse = userRequest.send();
@@ -103,21 +113,62 @@ public class GitLabIdentityProvider implements OAuth2IdentityProvider {
         GsonUser gsonUser = GsonUser.parse(userResponseBody);
 
         UserIdentity.Builder builder = UserIdentity.builder().setProviderLogin(gsonUser.getUsername()).setLogin(gsonUser.getUsername()).setName(gsonUser.getName()).setEmail(gsonUser.getEmail());
-
-        if (gitLabConfiguration.groups() != null && !gitLabConfiguration.groups().trim().isEmpty()) {
-            Set<String> groups = new HashSet<>(Arrays.asList(gitLabConfiguration.groups().split(",")));
-            builder.setGroups(groups);
+        if (!gitLabConfiguration.userExceptions().contains(gsonUser.getUsername())) {
+            builder.setGroups(getUserGroups(accessToken));
         }
 
         context.authenticate(builder.build());
         context.redirectToRequestedPage();
     }
 
+    private Set<String> getUserGroups(Token accessToken) {
+        Set<String> groups = new HashSet<>();
+        if (gitLabConfiguration.groups() != null && !gitLabConfiguration.groups().trim().isEmpty()) {
+            groups.addAll(Arrays.asList(gitLabConfiguration.groups().split(",")));
+        }
+        if (gitLabConfiguration.syncUserGroups()) {
+            groups.addAll(getUserGitLabGroups(accessToken));
+        }
+        return groups;
+    }
+
+    private Set<String> getUserGitLabGroups(Token accessToken) {
+        Set<String> groups = Collections.emptySet();
+        try {
+            if (GitLabAuthPlugin.V3_API_VERSION.equals(gitLabConfiguration.apiVersion())) {
+                com.talanlabs.gitlab.api.v3.GitLabAPI api = createV3Api(accessToken.getToken());
+                groups = Stream.of(api.getGitLabAPIGroups().getMyGroups())
+                        .map(Paged::getResults)
+                        .flatMap(Collection::stream)
+                        .map(com.talanlabs.gitlab.api.v3.models.GitlabGroup::getName).collect(Collectors.toSet());
+            } else if (GitLabAuthPlugin.V4_API_VERSION.equals(gitLabConfiguration.apiVersion())) {
+                com.talanlabs.gitlab.api.v4.GitLabAPI api = createV4Api(accessToken.getToken());
+                groups = Stream.of(api.getGitLabAPIGroups().getMyGroups())
+                        .map(Paged::getResults)
+                        .flatMap(Collection::stream)
+                        .map(com.talanlabs.gitlab.api.v4.models.GitlabGroup::getName).collect(Collectors.toSet());
+            }
+        } catch (IOException e) {
+            LOGGER.error("An error occured when trying to fetch user's groups", e);
+        }
+        return groups;
+    }
+
+    private GitLabAPI createV3Api(String accessToken) {
+        return com.talanlabs.gitlab.api.v3.GitLabAPI
+                            .connect(gitLabConfiguration.url(), accessToken, com.talanlabs.gitlab.api.v3.TokenType.ACCESS_TOKEN);
+    }
+
+    private com.talanlabs.gitlab.api.v4.GitLabAPI createV4Api(String accessToken) {
+        return com.talanlabs.gitlab.api.v4.GitLabAPI
+                            .connect(gitLabConfiguration.url(), accessToken, com.talanlabs.gitlab.api.v4.TokenType.ACCESS_TOKEN);
+    }
+
     private ServiceBuilder prepareScribe(OAuth2IdentityProvider.OAuth2Context context) {
         if (!isEnabled()) {
             throw new IllegalStateException("GitLab Authentication is disabled");
         }
-        ServiceBuilder serviceBuilder = new ServiceBuilder().provider(new GitLabApi(gitLabConfiguration.url())).apiKey(gitLabConfiguration.applicationId()).apiSecret(gitLabConfiguration.secret())
+        ServiceBuilder serviceBuilder = new ServiceBuilder().provider(new GitLabOAuthApi(gitLabConfiguration.url())).apiKey(gitLabConfiguration.applicationId()).apiSecret(gitLabConfiguration.secret())
                 .grantType(OAuthConstants.AUTHORIZATION_CODE).callback(context.getCallbackUrl());
         if (gitLabConfiguration.scope() != null && !GitLabAuthPlugin.NONE_SCOPE.equals(gitLabConfiguration.scope())) {
             serviceBuilder.scope(gitLabConfiguration.scope());

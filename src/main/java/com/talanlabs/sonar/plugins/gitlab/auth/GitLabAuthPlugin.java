@@ -1,6 +1,6 @@
 /*
  * SonarQube :: GitLab Auth Plugin
- * Copyright (C) 2016-2017 Talanlabs
+ * Copyright (C) 2016-2017 TalanLabs
  * gabriel.allaigre@talanlabs.com
  *
  * This program is free software; you can redistribute it and/or
@@ -19,16 +19,15 @@
  */
 package com.talanlabs.sonar.plugins.gitlab.auth;
 
-import org.sonar.api.Plugin;
-import org.sonar.api.PropertyType;
-import org.sonar.api.config.PropertyDefinition;
-
-import java.util.Arrays;
-import java.util.List;
-
 import static java.lang.String.valueOf;
 import static org.sonar.api.PropertyType.BOOLEAN;
 import static org.sonar.api.PropertyType.SINGLE_SELECT_LIST;
+
+import java.util.Arrays;
+import java.util.List;
+import org.sonar.api.Plugin;
+import org.sonar.api.PropertyType;
+import org.sonar.api.config.PropertyDefinition;
 
 public class GitLabAuthPlugin implements Plugin {
 
@@ -38,7 +37,10 @@ public class GitLabAuthPlugin implements Plugin {
     public static final String GITLAB_AUTH_SECRET = "sonar.auth.gitlab.secret";
     public static final String GITLAB_AUTH_ALLOWUSERSTOSIGNUP = "sonar.auth.gitlab.allowUsersToSignUp";
     public static final String GITLAB_AUTH_SCOPE = "sonar.auth.gitlab.scope";
+    public static final String GITLAB_AUTH_SYNC_USER_GROUPS = "sonar.auth.gitlab.sync_user_groups";
     public static final String GITLAB_AUTH_GROUPS = "sonar.auth.gitlab.groups";
+    public static final String GITLAB_AUTH_API_VERSION = "sonar.auth.gitlab.api_version";
+    public static final String GITLAB_AUTH_USER_EXCEPTIONS = "sonar.auth.gitlab.user_exceptions";
 
 
     public static final String CATEGORY = "gitlab";
@@ -47,6 +49,9 @@ public class GitLabAuthPlugin implements Plugin {
     public static final String READ_USER_SCOPE = "read_user";
     public static final String API_SCOPE = "api";
     public static final String NONE_SCOPE = "none";
+
+    public static final String V3_API_VERSION = "v3";
+    public static final String V4_API_VERSION = "v4";
 
     static List<PropertyDefinition> definitions() {
         return Arrays.asList(PropertyDefinition.builder(GITLAB_AUTH_ENABLED).name("Enabled").description("Enable Gitlab users to login. Value is ignored if client ID and secret are not defined.")
@@ -62,8 +67,14 @@ public class GitLabAuthPlugin implements Plugin {
                 PropertyDefinition.builder(GITLAB_AUTH_SCOPE).name("Gitlab access scope")
                         .description("Scope provided by GitLab when access user info.").category(CATEGORY)
                         .subCategory(SUBCATEGORY).type(SINGLE_SELECT_LIST).options(NONE_SCOPE, READ_USER_SCOPE, API_SCOPE).defaultValue(READ_USER_SCOPE).index(6).build(),
-                PropertyDefinition.builder(GITLAB_AUTH_GROUPS).name("Groups").description("Set groups for user").category(CATEGORY)
-                        .subCategory(SUBCATEGORY).index(7).build()
+                PropertyDefinition.builder(GITLAB_AUTH_GROUPS).name("Default groups").description("Set default groups for user").category(CATEGORY)
+                        .subCategory(SUBCATEGORY).index(7).build(),
+                PropertyDefinition.builder(GITLAB_AUTH_SYNC_USER_GROUPS).name("Synchronize user groups").description("Synchronize GitLab and Sonar user groups").category(CATEGORY).subCategory(SUBCATEGORY)
+                        .type(PropertyType.BOOLEAN).defaultValue(valueOf(false)).index(8).build(),
+                PropertyDefinition.builder(GITLAB_AUTH_API_VERSION).name("Set GitLab API version").description("GitLab API version").category(CATEGORY).subCategory(SUBCATEGORY)
+                        .type(PropertyType.SINGLE_SELECT_LIST).options(V3_API_VERSION, V4_API_VERSION).defaultValue(V4_API_VERSION).index(9).build(),
+                PropertyDefinition.builder(GITLAB_AUTH_USER_EXCEPTIONS).name("User exceptions").description("Comma separated list of usernames to keep intact").category(CATEGORY).subCategory(SUBCATEGORY)
+                        .type(PropertyType.STRING).defaultValue("").index(10).build()
         );
     }
 
