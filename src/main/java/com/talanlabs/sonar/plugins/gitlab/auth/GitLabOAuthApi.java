@@ -1,6 +1,6 @@
 /*
  * SonarQube :: GitLab Auth Plugin
- * Copyright (C) 2016-2017 Talanlabs
+ * Copyright (C) 2016-2017 TalanLabs
  * gabriel.allaigre@talanlabs.com
  *
  * This program is free software; you can redistribute it and/or
@@ -27,11 +27,11 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 
-public class GitLabApi extends DefaultApi20 {
+public class GitLabOAuthApi extends DefaultApi20 {
 
     private final String url;
 
-    public GitLabApi(String url) {
+    public GitLabOAuthApi(String url) {
         super();
 
         this.url = url;

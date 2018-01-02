@@ -7,6 +7,12 @@ Inspired by https://github.com/SonarSource/sonar-auth-github
 
 **The version 1.2.2 is directly in the SonarQube update center**
 
+**Version 1.3.0-beta1**
+
+- Add default v4 api
+- Add sync groups option with GitLab
+- Add custom groups for user
+
 **Version 1.2.2**
 
 - Add option to change scope for GitLab (since 9.2, scope is api)
@@ -64,6 +70,10 @@ Copy Application Id and Secret in Settings of Sonarqube.
 | sonar.auth.gitlab.allowUsersToSignUp | Allow new users to authenticate. When set to 'false', only existing users will be able to authenticate to the server |
 | sonar.auth.gitlab.scope | Scope provided by GitLab when access user info, either global or per project, default read_user |
 | sonar.auth.gitlab.groups | Set groups, use , for multi |
+| sonar.auth.gitlab.sync_user_groups | Enable synchronization between GitLab and SonarQube groups. SonarQube users groups will be the same as GitLab's |
+| sonar.auth.gitlab.groups | Defaults groups, which will be added to SonarQube default group and syncs groups if enabled |
+| sonar.auth.gitlab.api_version | GitLab API version |
+| sonar.auth.gitlab.user_exceptions | List of usernames to keep intact (e.g. admin list), use , for multi |
 
 # Sonarqube
 
