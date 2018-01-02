@@ -23,6 +23,7 @@ import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 import java.util.Arrays;
 import java.util.HashSet;
+import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.Rule;
@@ -104,16 +105,26 @@ public class CallbackTest {
     // test with group synchronization using api V3
     @Test
     public void testCallbackSuccessWithGroupV3() {
-        testSuccessWithGroups(GitLabAuthPlugin.V3_API_VERSION, "testV3");
+        testSuccessWithGroups(GitLabAuthPlugin.V3_API_VERSION, "testV3", "group");
     }
 
     // test with group synchronization using api V4
     @Test
     public void testCallbackSuccessWithGroupV4() {
-        testSuccessWithGroups(GitLabAuthPlugin.V4_API_VERSION, "testV4");
+        testSuccessWithGroups(GitLabAuthPlugin.V4_API_VERSION, "testV4", "group");
     }
 
-    private void testSuccessWithGroups(String apiVersion, String testName) {
+    @Test
+    public void testCallbackAPIExceptionWithGroupV4() {
+        testSuccessWithGroups(GitLabAuthPlugin.V4_API_VERSION, null, "group");
+    }
+
+    @Test
+    public void testCallbackUnknownVersion() {
+        testSuccessWithGroups("unknownVersion", null, null);
+    }
+
+    private void testSuccessWithGroups(String apiVersion, @Nullable String groupTestName, @Nullable String defaultGroup) {
         GitLabConfiguration configuration = Mockito.mock(GitLabConfiguration.class);
         Mockito.when(configuration.isEnabled()).thenReturn(true);
         Mockito.when(configuration.allowUsersToSignUp()).thenReturn(true);
@@ -122,7 +133,7 @@ public class CallbackTest {
         Mockito.when(configuration.url()).thenReturn(String.format("http://%s:%d", gitlab.getHostName(), gitlab.getPort()));
         Mockito.when(configuration.scope()).thenReturn("read_user");
         Mockito.when(configuration.syncUserGroups()).thenReturn(true);
-        Mockito.when(configuration.groups()).thenReturn("group");
+        Mockito.when(configuration.groups()).thenReturn(defaultGroup);
         Mockito.when(configuration.apiVersion()).thenReturn(apiVersion);
 
         GitLabIdentityProvider gitLabIdentityProvider = new GitLabIdentityProvider(configuration);
@@ -138,7 +149,11 @@ public class CallbackTest {
         gitlab.enqueue(new MockResponse().setBody(
                 "{\n" + " \"access_token\": \"de6780bc506a0446309bd9362820ba8aed28aa506c71eedbe1c5c4f9dd350e54\",\n" + " \"token_type\": \"bearer\",\n" + " \"expires_in\": 7200,\n" + " \"refresh_token\": \"8257e65c97202ed1726cf9571600918f3bffb2544b26e00a61df9897668c33a1\"\n" + "}"));
         gitlab.enqueue(new MockResponse().setBody("{ \"username\": \"username\", \"name\": \"name\", \"email\": \"email\"}"));
-        gitlab.enqueue(new MockResponse().setBody(String.format("[{\"name\": \"%s\"}]", testName)));
+        if (groupTestName == null) {
+            gitlab.enqueue(new MockResponse().setBody(""));
+        } else {
+            gitlab.enqueue(new MockResponse().setBody(String.format("[{\"name\": \"%s\"}]", groupTestName)));
+        }
 
         gitLabIdentityProvider.callback(callbackContext);
 
@@ -147,7 +162,11 @@ public class CallbackTest {
         UserIdentity value = captor.getValue();
         Assertions.assertThat(value.getName()).isEqualTo("name");
         Assertions.assertThat(value.getLogin()).isEqualTo("username");
-        Assertions.assertThat(value.getGroups()).isEqualTo(new HashSet<>(Arrays.asList(testName, "group")));
+        if (defaultGroup == null) {
+            Assertions.assertThat(value.getGroups()).isEmpty();
+        } else if (groupTestName != null) {
+            Assertions.assertThat(value.getGroups()).isEqualTo(new HashSet<>(Arrays.asList(groupTestName, "group")));
+        }
         Assertions.assertThat(value.getEmail()).isEqualTo("email");
     }
 }
