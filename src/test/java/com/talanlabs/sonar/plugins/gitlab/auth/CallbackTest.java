@@ -21,7 +21,8 @@ package com.talanlabs.sonar.plugins.gitlab.auth;
 
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.HashSet;
 import javax.servlet.http.HttpServletRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.Rule;
@@ -121,6 +122,7 @@ public class CallbackTest {
         Mockito.when(configuration.url()).thenReturn(String.format("http://%s:%d", gitlab.getHostName(), gitlab.getPort()));
         Mockito.when(configuration.scope()).thenReturn("read_user");
         Mockito.when(configuration.syncUserGroups()).thenReturn(true);
+        Mockito.when(configuration.groups()).thenReturn("group");
         Mockito.when(configuration.apiVersion()).thenReturn(apiVersion);
 
         GitLabIdentityProvider gitLabIdentityProvider = new GitLabIdentityProvider(configuration);
@@ -145,7 +147,7 @@ public class CallbackTest {
         UserIdentity value = captor.getValue();
         Assertions.assertThat(value.getName()).isEqualTo("name");
         Assertions.assertThat(value.getLogin()).isEqualTo("username");
-        Assertions.assertThat(value.getGroups()).isEqualTo(Collections.singleton(testName));
+        Assertions.assertThat(value.getGroups()).isEqualTo(new HashSet<>(Arrays.asList(testName, "group")));
         Assertions.assertThat(value.getEmail()).isEqualTo("email");
     }
 }

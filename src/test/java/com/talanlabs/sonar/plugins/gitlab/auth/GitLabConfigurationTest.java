@@ -19,6 +19,7 @@
  */
 package com.talanlabs.sonar.plugins.gitlab.auth;
 
+import java.util.Arrays;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Rule;
@@ -69,5 +70,17 @@ public class GitLabConfigurationTest {
         Assertions.assertThat(config.groups()).isNull();
         settings.setProperty(GitLabAuthPlugin.GITLAB_AUTH_GROUPS, "user");
         Assertions.assertThat(config.groups()).isEqualTo("user");
+
+        Assertions.assertThat(config.syncUserGroups()).isFalse();
+        settings.setProperty(GitLabAuthPlugin.GITLAB_AUTH_SYNC_USER_GROUPS, true);
+        Assertions.assertThat(config.syncUserGroups()).isTrue();
+
+        Assertions.assertThat(config.apiVersion()).isEqualTo(GitLabAuthPlugin.V4_API_VERSION);
+        settings.setProperty(GitLabAuthPlugin.GITLAB_AUTH_API_VERSION, GitLabAuthPlugin.V3_API_VERSION);
+        Assertions.assertThat(config.apiVersion()).isEqualTo(GitLabAuthPlugin.V3_API_VERSION);
+
+        Assertions.assertThat(config.userExceptions()).isEmpty();
+        settings.setProperty(GitLabAuthPlugin.GITLAB_AUTH_USER_EXCEPTIONS, "admin,guest");
+        Assertions.assertThat(config.userExceptions()).isEqualTo(Arrays.asList("admin", "guest"));
     }
 }
