@@ -22,6 +22,7 @@ package com.talanlabs.sonar.plugins.gitlab.auth;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
@@ -124,7 +125,21 @@ public class CallbackTest {
         testSuccessWithGroups("unknownVersion", null, null);
     }
 
+    @Test
+    public void testCallbackUnknownVersionAndEmptyGroup() {
+        testSuccessWithGroups("unknownVersion", null, "");
+    }
+
+    @Test
+    public void testCallbackUnknownVersionAndUseException() {
+        testSuccessWithGroupsAndException(GitLabAuthPlugin.V4_API_VERSION, "testV4", "group", true);
+    }
+
     private void testSuccessWithGroups(String apiVersion, @Nullable String groupTestName, @Nullable String defaultGroup) {
+        testSuccessWithGroupsAndException(apiVersion, groupTestName, defaultGroup, false);
+    }
+
+    private void testSuccessWithGroupsAndException(String apiVersion, @Nullable String groupTestName, @Nullable String defaultGroup, boolean useException) {
         GitLabConfiguration configuration = Mockito.mock(GitLabConfiguration.class);
         Mockito.when(configuration.isEnabled()).thenReturn(true);
         Mockito.when(configuration.allowUsersToSignUp()).thenReturn(true);
@@ -135,6 +150,9 @@ public class CallbackTest {
         Mockito.when(configuration.syncUserGroups()).thenReturn(true);
         Mockito.when(configuration.groups()).thenReturn(defaultGroup);
         Mockito.when(configuration.apiVersion()).thenReturn(apiVersion);
+        if (useException) {
+            Mockito.when(configuration.userExceptions()).thenReturn(Collections.singletonList("username"));
+        }
 
         GitLabIdentityProvider gitLabIdentityProvider = new GitLabIdentityProvider(configuration);
 
@@ -162,7 +180,7 @@ public class CallbackTest {
         UserIdentity value = captor.getValue();
         Assertions.assertThat(value.getName()).isEqualTo("name");
         Assertions.assertThat(value.getLogin()).isEqualTo("username");
-        if (defaultGroup == null) {
+        if (defaultGroup == null || useException) {
             Assertions.assertThat(value.getGroups()).isEmpty();
         } else if (groupTestName != null) {
             Assertions.assertThat(value.getGroups()).isEqualTo(new HashSet<>(Arrays.asList(groupTestName, "group")));
