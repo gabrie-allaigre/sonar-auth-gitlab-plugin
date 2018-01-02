@@ -83,7 +83,7 @@ public class CallbackTest {
         Mockito.when(configuration.applicationId()).thenReturn("123");
         Mockito.when(configuration.secret()).thenReturn("456");
         Mockito.when(configuration.url()).thenReturn(String.format("http://%s:%d", gitlab.getHostName(), gitlab.getPort()));
-        Mockito.when(configuration.scope()).thenReturn("read_user");
+        Mockito.when(configuration.scope()).thenReturn(GitLabAuthPlugin.NONE_SCOPE);
         GitLabIdentityProvider gitLabIdentityProvider = new GitLabIdentityProvider(configuration);
 
         OAuth2IdentityProvider.CallbackContext callbackContext = Mockito.mock(OAuth2IdentityProvider.CallbackContext.class);
@@ -146,7 +146,6 @@ public class CallbackTest {
         Mockito.when(configuration.applicationId()).thenReturn("123");
         Mockito.when(configuration.secret()).thenReturn("456");
         Mockito.when(configuration.url()).thenReturn(String.format("http://%s:%d", gitlab.getHostName(), gitlab.getPort()));
-        Mockito.when(configuration.scope()).thenReturn("read_user");
         Mockito.when(configuration.syncUserGroups()).thenReturn(true);
         Mockito.when(configuration.groups()).thenReturn(defaultGroup);
         Mockito.when(configuration.apiVersion()).thenReturn(apiVersion);
