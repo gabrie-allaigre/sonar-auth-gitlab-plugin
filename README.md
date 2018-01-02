@@ -7,11 +7,14 @@ Inspired by https://github.com/SonarSource/sonar-auth-github
 
 **The version 1.2.2 is directly in the SonarQube update center**
 
-**Version 1.3.0-beta1**
+**Version 1.3.0-rc1**
 
 - Add default v4 api
 - Add sync groups option with GitLab
 - Add custom groups for user
+- Add exception for few users
+
+Download 1.3.0-rc1 version https://github.com/gabrie-allaigre/sonar-auth-gitlab-plugin/releases/download/1.3.0-rc1/sonar-auth-gitlab-plugin-1.3.0-rc1.jar
 
 **Version 1.2.2**
 
