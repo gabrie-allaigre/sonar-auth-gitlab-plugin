@@ -19,13 +19,14 @@
  */
 package com.talanlabs.sonar.plugins.gitlab.auth;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import javax.annotation.CheckForNull;
 import org.sonar.api.config.Settings;
 import org.sonar.api.server.ServerSide;
+
+import javax.annotation.CheckForNull;
+import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @ServerSide
 public class GitLabConfiguration {
@@ -63,8 +64,9 @@ public class GitLabConfiguration {
         return settings.getBoolean(GitLabAuthPlugin.GITLAB_AUTH_ALLOWUSERSTOSIGNUP);
     }
 
-    public String groups() {
-        return settings.getString(GitLabAuthPlugin.GITLAB_AUTH_GROUPS);
+    public Set<String> groups() {
+        String groups = settings.getString(GitLabAuthPlugin.GITLAB_AUTH_GROUPS);
+        return groups != null ? Stream.of(groups.split(",")).map(String::trim).collect(Collectors.toSet()) : Collections.emptySet();
     }
 
     public boolean syncUserGroups() {
@@ -75,8 +77,8 @@ public class GitLabConfiguration {
         return settings.getString(GitLabAuthPlugin.GITLAB_AUTH_API_VERSION);
     }
 
-    public List<String> userExceptions() {
+    public Set<String> userExceptions() {
         String exceptions = settings.getString(GitLabAuthPlugin.GITLAB_AUTH_USER_EXCEPTIONS);
-        return exceptions != null ? Stream.of(exceptions.split(",")).map(String::trim).collect(Collectors.toList()) : Collections.emptyList();
+        return exceptions != null ? Stream.of(exceptions.split(",")).map(String::trim).collect(Collectors.toSet()) : Collections.emptySet();
     }
 }

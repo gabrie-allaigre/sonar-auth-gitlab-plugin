@@ -19,7 +19,6 @@
  */
 package com.talanlabs.sonar.plugins.gitlab.auth;
 
-import java.util.Arrays;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Rule;
@@ -67,9 +66,9 @@ public class GitLabConfigurationTest {
         settings.setProperty(GitLabAuthPlugin.GITLAB_AUTH_SCOPE, GitLabAuthPlugin.API_SCOPE);
         Assertions.assertThat(config.scope()).isEqualTo(GitLabAuthPlugin.API_SCOPE);
 
-        Assertions.assertThat(config.groups()).isNull();
-        settings.setProperty(GitLabAuthPlugin.GITLAB_AUTH_GROUPS, "user");
-        Assertions.assertThat(config.groups()).isEqualTo("user");
+        Assertions.assertThat(config.groups()).isEmpty();
+        settings.setProperty(GitLabAuthPlugin.GITLAB_AUTH_GROUPS, "group1,group2");
+        Assertions.assertThat(config.groups()).contains("group1", "group2");
 
         Assertions.assertThat(config.syncUserGroups()).isFalse();
         settings.setProperty(GitLabAuthPlugin.GITLAB_AUTH_SYNC_USER_GROUPS, true);
@@ -81,6 +80,6 @@ public class GitLabConfigurationTest {
 
         Assertions.assertThat(config.userExceptions()).isEmpty();
         settings.setProperty(GitLabAuthPlugin.GITLAB_AUTH_USER_EXCEPTIONS, "admin,guest");
-        Assertions.assertThat(config.userExceptions()).isEqualTo(Arrays.asList("admin", "guest"));
+        Assertions.assertThat(config.userExceptions()).containsExactly("admin", "guest");
     }
 }

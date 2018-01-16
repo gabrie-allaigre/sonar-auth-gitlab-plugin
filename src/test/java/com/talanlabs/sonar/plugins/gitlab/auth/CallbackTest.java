@@ -21,11 +21,6 @@ package com.talanlabs.sonar.plugins.gitlab.auth;
 
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import javax.annotation.Nullable;
-import javax.servlet.http.HttpServletRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.Rule;
 import org.junit.Test;
@@ -33,6 +28,13 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.sonar.api.server.authentication.OAuth2IdentityProvider;
 import org.sonar.api.server.authentication.UserIdentity;
+
+import javax.annotation.Nullable;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CallbackTest {
 
@@ -106,40 +108,40 @@ public class CallbackTest {
     // test with group synchronization using api V3
     @Test
     public void testCallbackSuccessWithGroupV3() {
-        testSuccessWithGroups(GitLabAuthPlugin.V3_API_VERSION, "testV3", "group");
+        testSuccessWithGroups(GitLabAuthPlugin.V3_API_VERSION, "testV3", Collections.singleton("group"));
     }
 
     // test with group synchronization using api V4
     @Test
     public void testCallbackSuccessWithGroupV4() {
-        testSuccessWithGroups(GitLabAuthPlugin.V4_API_VERSION, "testV4", "group");
+        testSuccessWithGroups(GitLabAuthPlugin.V4_API_VERSION, "testV4", Collections.singleton("group"));
     }
 
     @Test
     public void testCallbackAPIExceptionWithGroupV4() {
-        testSuccessWithGroups(GitLabAuthPlugin.V4_API_VERSION, null, "group");
+        testSuccessWithGroups(GitLabAuthPlugin.V4_API_VERSION, null, Collections.singleton("group"));
     }
 
     @Test
     public void testCallbackUnknownVersion() {
-        testSuccessWithGroups("unknownVersion", null, null);
+        testSuccessWithGroups("unknownVersion", null, Collections.emptySet());
     }
 
     @Test
     public void testCallbackUnknownVersionAndEmptyGroup() {
-        testSuccessWithGroups("unknownVersion", null, "");
+        testSuccessWithGroups("unknownVersion", null, Collections.emptySet());
     }
 
     @Test
     public void testCallbackUnknownVersionAndUseException() {
-        testSuccessWithGroupsAndException(GitLabAuthPlugin.V4_API_VERSION, "testV4", "group", true);
+        testSuccessWithGroupsAndException(GitLabAuthPlugin.V4_API_VERSION, "testV4", Collections.singleton("group"), true);
     }
 
-    private void testSuccessWithGroups(String apiVersion, @Nullable String groupTestName, @Nullable String defaultGroup) {
+    private void testSuccessWithGroups(String apiVersion, @Nullable String groupTestName, Set<String> defaultGroup) {
         testSuccessWithGroupsAndException(apiVersion, groupTestName, defaultGroup, false);
     }
 
-    private void testSuccessWithGroupsAndException(String apiVersion, @Nullable String groupTestName, @Nullable String defaultGroup, boolean useException) {
+    private void testSuccessWithGroupsAndException(String apiVersion, @Nullable String groupTestName, Set<String> defaultGroup, boolean useException) {
         GitLabConfiguration configuration = Mockito.mock(GitLabConfiguration.class);
         Mockito.when(configuration.isEnabled()).thenReturn(true);
         Mockito.when(configuration.allowUsersToSignUp()).thenReturn(true);
@@ -150,7 +152,7 @@ public class CallbackTest {
         Mockito.when(configuration.groups()).thenReturn(defaultGroup);
         Mockito.when(configuration.apiVersion()).thenReturn(apiVersion);
         if (useException) {
-            Mockito.when(configuration.userExceptions()).thenReturn(Collections.singletonList("username"));
+            Mockito.when(configuration.userExceptions()).thenReturn(Collections.singleton("username"));
         }
 
         GitLabIdentityProvider gitLabIdentityProvider = new GitLabIdentityProvider(configuration);
