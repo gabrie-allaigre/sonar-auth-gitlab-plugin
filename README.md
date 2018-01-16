@@ -7,6 +7,10 @@ Inspired by https://github.com/SonarSource/sonar-auth-github
 
 **The version 1.2.2 is directly in the SonarQube update center**
 
+**Version 1.3.1-SNAPSHOT**
+
+- Fix bug with sync
+
 **Version 1.3.0**
 
 - Add default v4 api
