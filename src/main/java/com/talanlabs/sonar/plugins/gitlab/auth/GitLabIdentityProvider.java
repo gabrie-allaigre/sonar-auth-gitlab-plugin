@@ -115,7 +115,7 @@ public class GitLabIdentityProvider implements OAuth2IdentityProvider {
         UserIdentity.Builder builder = UserIdentity.builder().setProviderLogin(gsonUser.getUsername()).setLogin(gsonUser.getUsername()).setName(gsonUser.getName()).setEmail(gsonUser.getEmail());
         if (!gitLabConfiguration.userExceptions().contains(gsonUser.getUsername())) {
             Set<String> groups = getUserGroups(accessToken);
-            if (groups != null && !groups.isEmpty()) {
+            if (!groups.isEmpty()) {
                 builder.setGroups(groups);
             }
         }
