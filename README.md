@@ -5,11 +5,13 @@ Sonar Auth GitLab Plugin
 
 Inspired by https://github.com/SonarSource/sonar-auth-github
 
-**The version 1.2.2 is directly in the SonarQube update center**
+**The version 1.3.0 is directly in the SonarQube update center**
 
-**Version 1.3.1-SNAPSHOT**
+**Version 1.3.1**
 
-- Fix bug with sync
+- Fix bug with sync #16
+
+Download 1.3.1 version https://github.com/gabrie-allaigre/sonar-auth-gitlab-plugin/releases/download/1.3.1/sonar-auth-gitlab-plugin-1.3.1.jar
 
 **Version 1.3.0**
 
