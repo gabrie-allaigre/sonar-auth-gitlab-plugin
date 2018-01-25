@@ -57,7 +57,7 @@ For SonarQube >=5.4:
 
 - In GitLab, create Application OAuth : Admin Settings -> **Application**
 
-Fill name SonarQube and fill redirect URI with 'https://mygitlab.com/oauth2/callback/gitlab' (replace url).
+Fill name SonarQube and fill redirect URI with 'https://mysonar.com/oauth2/callback/gitlab' (replace url).
 
 ![Gitlab Add](doc/gitlab_add.jpg)
 
