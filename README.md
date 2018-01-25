@@ -59,11 +59,11 @@ For SonarQube >=5.4:
 
 Fill name SonarQube and fill redirect URI with 'https://mysonar.com/oauth2/callback/gitlab' (replace url).
 
-![Gitlab Add](doc/gitlab_add.jpg)
+![Gitlab Add](doc/gitlab_add.png)
 
 Copy Application Id and Secret in Settings of Sonarqube.
 
-![Gitlab App](doc/gitlab_app.jpg)
+![Gitlab App](doc/gitlab_app.png)
 
 - In SonarQube: Administration -> General Settings -> GitLab -> **Authentication**
 
