@@ -81,5 +81,9 @@ public class GitLabConfigurationTest {
         Assertions.assertThat(config.userExceptions()).isEmpty();
         settings.setProperty(GitLabAuthPlugin.GITLAB_AUTH_USER_EXCEPTIONS, "admin,guest");
         Assertions.assertThat(config.userExceptions()).containsExactly("admin", "guest");
+
+        Assertions.assertThat(config.ignoreCertificate()).isFalse();
+        settings.setProperty(GitLabAuthPlugin.GITLAB_AUTH_IGNORE_CERT, "true");
+        Assertions.assertThat(config.ignoreCertificate()).isTrue();
     }
 }

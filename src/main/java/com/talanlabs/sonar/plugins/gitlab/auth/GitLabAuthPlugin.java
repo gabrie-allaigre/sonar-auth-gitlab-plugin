@@ -19,15 +19,16 @@
  */
 package com.talanlabs.sonar.plugins.gitlab.auth;
 
-import static java.lang.String.valueOf;
-import static org.sonar.api.PropertyType.BOOLEAN;
-import static org.sonar.api.PropertyType.SINGLE_SELECT_LIST;
-
-import java.util.Arrays;
-import java.util.List;
 import org.sonar.api.Plugin;
 import org.sonar.api.PropertyType;
 import org.sonar.api.config.PropertyDefinition;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static java.lang.String.valueOf;
+import static org.sonar.api.PropertyType.BOOLEAN;
+import static org.sonar.api.PropertyType.SINGLE_SELECT_LIST;
 
 public class GitLabAuthPlugin implements Plugin {
 
@@ -41,7 +42,7 @@ public class GitLabAuthPlugin implements Plugin {
     public static final String GITLAB_AUTH_GROUPS = "sonar.auth.gitlab.groups";
     public static final String GITLAB_AUTH_API_VERSION = "sonar.auth.gitlab.api_version";
     public static final String GITLAB_AUTH_USER_EXCEPTIONS = "sonar.auth.gitlab.user_exceptions";
-
+    public static final String GITLAB_AUTH_IGNORE_CERT = "sonar.auth.gitlab.ignore_certificate";
 
     public static final String CATEGORY = "gitlab";
     public static final String SUBCATEGORY = "authentication";
@@ -64,18 +65,20 @@ public class GitLabAuthPlugin implements Plugin {
                         .type(PropertyType.PASSWORD).index(4).build(), PropertyDefinition.builder(GITLAB_AUTH_ALLOWUSERSTOSIGNUP).name("Allow users to sign-up")
                         .description("Allow new users to authenticate. When set to 'false', only existing users will be able to authenticate to the server.").category(CATEGORY)
                         .subCategory(SUBCATEGORY).type(BOOLEAN).defaultValue(valueOf(true)).index(5).build(),
-                PropertyDefinition.builder(GITLAB_AUTH_SCOPE).name("Gitlab access scope")
-                        .description("Scope provided by GitLab when access user info.").category(CATEGORY)
-                        .subCategory(SUBCATEGORY).type(SINGLE_SELECT_LIST).options(NONE_SCOPE, READ_USER_SCOPE, API_SCOPE).defaultValue(READ_USER_SCOPE).index(6).build(),
-                PropertyDefinition.builder(GITLAB_AUTH_GROUPS).name("Default groups").description("Set default groups for user").category(CATEGORY)
-                        .subCategory(SUBCATEGORY).index(7).build(),
-                PropertyDefinition.builder(GITLAB_AUTH_SYNC_USER_GROUPS).name("Synchronize user groups").description("Synchronize GitLab and Sonar user groups").category(CATEGORY).subCategory(SUBCATEGORY)
-                        .type(PropertyType.BOOLEAN).defaultValue(valueOf(false)).index(8).build(),
+                PropertyDefinition.builder(GITLAB_AUTH_SCOPE).name("Gitlab access scope").description("Scope provided by GitLab when access user info.").category(CATEGORY).subCategory(SUBCATEGORY)
+                        .type(SINGLE_SELECT_LIST).options(NONE_SCOPE, READ_USER_SCOPE, API_SCOPE).defaultValue(READ_USER_SCOPE).index(6).build(),
+                PropertyDefinition.builder(GITLAB_AUTH_GROUPS).name("Default groups").description("Set default groups for user").category(CATEGORY).subCategory(SUBCATEGORY).index(7).build(),
+                PropertyDefinition.builder(GITLAB_AUTH_SYNC_USER_GROUPS).name("Synchronize user groups").description("Synchronize GitLab and Sonar user groups").category(CATEGORY)
+                        .subCategory(SUBCATEGORY).type(PropertyType.BOOLEAN).defaultValue(valueOf(false)).index(8).build(),
                 PropertyDefinition.builder(GITLAB_AUTH_API_VERSION).name("Set GitLab API version").description("GitLab API version").category(CATEGORY).subCategory(SUBCATEGORY)
                         .type(PropertyType.SINGLE_SELECT_LIST).options(V3_API_VERSION, V4_API_VERSION).defaultValue(V4_API_VERSION).index(9).build(),
-                PropertyDefinition.builder(GITLAB_AUTH_USER_EXCEPTIONS).name("User exceptions").description("Comma separated list of usernames to keep intact").category(CATEGORY).subCategory(SUBCATEGORY)
-                        .type(PropertyType.STRING).defaultValue("").index(10).build()
-        );
+                PropertyDefinition.builder(GITLAB_AUTH_USER_EXCEPTIONS).name("User exceptions").description("Comma separated list of usernames to keep intact").category(CATEGORY)
+                        .subCategory(SUBCATEGORY).type(PropertyType.STRING).defaultValue("").index(10).build(),
+                PropertyDefinition.builder(GITLAB_AUTH_IGNORE_CERT).name("GitLab Ignore Certificate").description("Ignore Certificate for access GitLab.").
+                        category(CATEGORY).subCategory(SUBCATEGORY).
+                        type(PropertyType.BOOLEAN).
+                        defaultValue(String.valueOf(false)).
+                        index(11).build());
     }
 
     @Override

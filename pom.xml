@@ -35,7 +35,7 @@
         <sonar.jacoco.reportPath>${jacoco.ut.execution.data.file}</sonar.jacoco.reportPath>
         <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
 
-        <java-gitlab-api.version>1.4.0</java-gitlab-api.version>
+        <java-gitlab-api.version>1.4.1</java-gitlab-api.version>
     </properties>
     <inceptionYear>2016</inceptionYear>
     <organization>

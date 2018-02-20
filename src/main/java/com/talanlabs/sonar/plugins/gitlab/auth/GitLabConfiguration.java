@@ -81,4 +81,8 @@ public class GitLabConfiguration {
         String exceptions = settings.getString(GitLabAuthPlugin.GITLAB_AUTH_USER_EXCEPTIONS);
         return exceptions != null ? Stream.of(exceptions.split(",")).map(String::trim).collect(Collectors.toSet()) : Collections.emptySet();
     }
+
+    public boolean ignoreCertificate() {
+        return settings.getBoolean(GitLabAuthPlugin.GITLAB_AUTH_IGNORE_CERT);
+    }
 }

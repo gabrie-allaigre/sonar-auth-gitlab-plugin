@@ -154,11 +154,11 @@ public class GitLabIdentityProvider implements OAuth2IdentityProvider {
     }
 
     private GitLabAPI createV3Api(String accessToken) {
-        return com.talanlabs.gitlab.api.v3.GitLabAPI.connect(gitLabConfiguration.url(), accessToken, com.talanlabs.gitlab.api.v3.TokenType.ACCESS_TOKEN);
+        return com.talanlabs.gitlab.api.v3.GitLabAPI.connect(gitLabConfiguration.url(), accessToken, com.talanlabs.gitlab.api.v3.TokenType.ACCESS_TOKEN).setIgnoreCertificateErrors(gitLabConfiguration.ignoreCertificate());
     }
 
     private com.talanlabs.gitlab.api.v4.GitLabAPI createV4Api(String accessToken) {
-        return com.talanlabs.gitlab.api.v4.GitLabAPI.connect(gitLabConfiguration.url(), accessToken, com.talanlabs.gitlab.api.v4.TokenType.ACCESS_TOKEN);
+        return com.talanlabs.gitlab.api.v4.GitLabAPI.connect(gitLabConfiguration.url(), accessToken, com.talanlabs.gitlab.api.v4.TokenType.ACCESS_TOKEN).setIgnoreCertificateErrors(gitLabConfiguration.ignoreCertificate());
     }
 
     private ServiceBuilder prepareScribe(OAuth2IdentityProvider.OAuth2Context context) {

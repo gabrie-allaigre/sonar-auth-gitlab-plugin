@@ -5,7 +5,15 @@ Sonar Auth GitLab Plugin
 
 Inspired by https://github.com/SonarSource/sonar-auth-github
 
-**The version 1.3.0 is directly in the SonarQube update center**
+**The version 1.3.1 is directly in the SonarQube update center**
+
+**Version 1.3.2-rc1**
+
+- Fix bug with group & ldap #20
+- Add option to ignore Certificate for access GitLab
+
+Download 1.3.2 version https://github.com/gabrie-allaigre/sonar-auth-gitlab-plugin/releases/download/1.3.2-rc1/sonar-auth-gitlab-plugin-1.3.2-rc1.jar
+
 
 **Version 1.3.1**
 
@@ -82,6 +90,7 @@ Copy Application Id and Secret in Settings of Sonarqube.
 | sonar.auth.gitlab.groups | Defaults groups, which will be added to SonarQube default group and syncs groups if enabled |
 | sonar.auth.gitlab.api_version | GitLab API version |
 | sonar.auth.gitlab.user_exceptions | List of usernames to keep intact (e.g. admin list), use , for multi |
+| sonar.auth.gitlab.ignore_certificate | Ignore Certificate for access GitLab, use for auto-signing cert (default false) | Administration, Variable | >= 2.0.0 |
 
 # Sonarqube
 
