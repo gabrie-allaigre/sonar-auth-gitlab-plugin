@@ -7,13 +7,12 @@ Inspired by https://github.com/SonarSource/sonar-auth-github
 
 **The version 1.3.1 is directly in the SonarQube update center**
 
-**Version 1.3.2-rc1**
+**Version 1.3.2**
 
 - Fix bug with group & ldap #20
 - Add option to ignore Certificate for access GitLab
 
-Download 1.3.2 version https://github.com/gabrie-allaigre/sonar-auth-gitlab-plugin/releases/download/1.3.2-rc1/sonar-auth-gitlab-plugin-1.3.2-rc1.jar
-
+Download 1.3.2 version https://github.com/gabrie-allaigre/sonar-auth-gitlab-plugin/releases/download/1.3.2/sonar-auth-gitlab-plugin-1.3.2.jar
 
 **Version 1.3.1**
 
