@@ -10,7 +10,7 @@ Inspired by https://github.com/SonarSource/sonar-auth-github
 **Version 1.3.2**
 
 - Fix bug with group & ldap #20
-- Add option to ignore Certificate for access GitLab
+- Add option to ignore Certificate for access GitLab #18
 
 Download 1.3.2 version https://github.com/gabrie-allaigre/sonar-auth-gitlab-plugin/releases/download/1.3.2/sonar-auth-gitlab-plugin-1.3.2.jar
 
