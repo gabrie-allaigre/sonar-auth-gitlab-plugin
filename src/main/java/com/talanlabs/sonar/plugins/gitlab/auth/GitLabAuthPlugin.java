@@ -62,7 +62,7 @@ public class GitLabAuthPlugin implements Plugin {
                 PropertyDefinition.builder(GITLAB_AUTH_APPLICATIONID).name("Application ID").description("Application ID provided by GitLab when registering the application.").category(CATEGORY)
                         .subCategory(SUBCATEGORY).index(3).build(),
                 PropertyDefinition.builder(GITLAB_AUTH_SECRET).name("Secret").description("Secret provided by GitLab when registering the application.").category(CATEGORY).subCategory(SUBCATEGORY)
-                        .type(PropertyType.PASSWORD).index(4).build(), PropertyDefinition.builder(GITLAB_AUTH_ALLOWUSERSTOSIGNUP).name("Allow users to sign-up")
+                        .index(4).build(), PropertyDefinition.builder(GITLAB_AUTH_ALLOWUSERSTOSIGNUP).name("Allow users to sign-up")
                         .description("Allow new users to authenticate. When set to 'false', only existing users will be able to authenticate to the server.").category(CATEGORY)
                         .subCategory(SUBCATEGORY).type(BOOLEAN).defaultValue(valueOf(true)).index(5).build(),
                 PropertyDefinition.builder(GITLAB_AUTH_SCOPE).name("Gitlab access scope").description("Scope provided by GitLab when access user info.").category(CATEGORY).subCategory(SUBCATEGORY)

@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.sonarsource.parent</groupId>
         <artifactId>parent</artifactId>
-        <version>40</version>
+        <version>41</version>
     </parent>
 
     <groupId>com.talanlabs</groupId>
@@ -19,7 +19,7 @@
         <license.mailto>gabriel.allaigre@talanlabs.com</license.mailto>
         <license.owner>TalanLabs</license.owner>
 
-        <sonar.version>5.6</sonar.version>
+        <sonar.version>7.0</sonar.version>
         <sonar.pluginName>GitLab Auth</sonar.pluginName>
         <sonar.pluginClass>com.talanlabs.sonar.plugins.gitlab.auth.GitLabAuthPlugin</sonar.pluginClass>
 

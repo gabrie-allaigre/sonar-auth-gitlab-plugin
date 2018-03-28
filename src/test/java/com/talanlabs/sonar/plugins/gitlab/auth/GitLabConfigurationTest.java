@@ -26,6 +26,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.sonar.api.config.PropertyDefinitions;
 import org.sonar.api.config.Settings;
+import org.sonar.api.config.internal.MapSettings;
 
 public class GitLabConfigurationTest {
 
@@ -37,7 +38,7 @@ public class GitLabConfigurationTest {
 
     @Before
     public void prepare() {
-        settings = new Settings(new PropertyDefinitions(GitLabAuthPlugin.definitions()));
+        settings = new MapSettings(new PropertyDefinitions(GitLabAuthPlugin.definitions()));
         config = new GitLabConfiguration(settings);
     }
 

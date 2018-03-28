@@ -5,7 +5,12 @@ Sonar Auth GitLab Plugin
 
 Inspired by https://github.com/SonarSource/sonar-auth-github
 
-**The version 1.3.1 is directly in the SonarQube update center**
+**The version 1.3.2 is directly in the SonarQube update center**
+
+**Version 1.4.0-SNAPSHOT**
+
+- Change secret field to text field
+- Update sonar-plugin to 7.0
 
 **Version 1.3.2**
 

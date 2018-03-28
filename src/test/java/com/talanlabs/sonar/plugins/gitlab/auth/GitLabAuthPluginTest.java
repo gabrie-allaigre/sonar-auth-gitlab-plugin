@@ -19,17 +19,18 @@
  */
 package com.talanlabs.sonar.plugins.gitlab.auth;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.Test;
 import org.sonar.api.Plugin;
+import org.sonar.api.internal.SonarRuntimeImpl;
 import org.sonar.api.utils.Version;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class GitLabAuthPluginTest {
 
     @Test
     public void uselessTest() {
-        Plugin.Context context = new Plugin.Context(Version.parse("5.6"));
+        Plugin.Context context = new Plugin.Context(SonarRuntimeImpl.forSonarQube(Version.parse("5.6"), null));
         new GitLabAuthPlugin().define(context);
         assertThat(context.getExtensions().size()).isGreaterThan(1);
     }
