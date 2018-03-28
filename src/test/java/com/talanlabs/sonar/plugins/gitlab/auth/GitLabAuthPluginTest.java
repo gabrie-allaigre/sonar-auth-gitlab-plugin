@@ -21,6 +21,7 @@ package com.talanlabs.sonar.plugins.gitlab.auth;
 
 import org.junit.Test;
 import org.sonar.api.Plugin;
+import org.sonar.api.SonarQubeSide;
 import org.sonar.api.internal.SonarRuntimeImpl;
 import org.sonar.api.utils.Version;
 
@@ -30,7 +31,7 @@ public class GitLabAuthPluginTest {
 
     @Test
     public void uselessTest() {
-        Plugin.Context context = new Plugin.Context(SonarRuntimeImpl.forSonarQube(Version.parse("5.6"), null));
+        Plugin.Context context = new Plugin.Context(SonarRuntimeImpl.forSonarQube(Version.parse("5.6"), SonarQubeSide.SERVER));
         new GitLabAuthPlugin().define(context);
         assertThat(context.getExtensions().size()).isGreaterThan(1);
     }
