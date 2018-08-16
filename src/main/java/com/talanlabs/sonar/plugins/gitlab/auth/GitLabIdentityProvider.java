@@ -120,8 +120,19 @@ public class GitLabIdentityProvider implements OAuth2IdentityProvider {
             }
         }
 
+        if (gitLabConfiguration.groupAllowed() != 0) {
+            Set<GitLabGroup> groups = getUserGitLabGroups(accessToken);
+            if (!theRequiredGitLabGroupIsPresent(groups)) {
+                throw new IllegalStateException(format("Fail to authenticate the user. He does not belong to the GitLab group with ID %s", gitLabConfiguration.groupAllowed()));
+            }
+        }
+
         context.authenticate(builder.build());
         context.redirectToRequestedPage();
+    }
+
+    private boolean theRequiredGitLabGroupIsPresent(Set<GitLabGroup> groups) {
+        return groups.stream().map(GitLabGroup::getId).anyMatch(id -> id.equals(gitLabConfiguration.groupAllowed()));
     }
 
     private Set<String> getUserGroups(Token accessToken) {
@@ -130,21 +141,21 @@ public class GitLabIdentityProvider implements OAuth2IdentityProvider {
             groups.addAll(gitLabConfiguration.groups());
         }
         if (gitLabConfiguration.syncUserGroups()) {
-            groups.addAll(getUserGitLabGroups(accessToken));
+            groups.addAll(getUserGitLabGroups(accessToken).stream().map(GitLabGroup::getName).collect(Collectors.toList()));
         }
         return groups;
     }
 
-    private Set<String> getUserGitLabGroups(Token accessToken) {
-        Set<String> groups = Collections.emptySet();
+    private Set<GitLabGroup> getUserGitLabGroups(Token accessToken) {
+        Set<GitLabGroup> groups = Collections.emptySet();
         try {
             if (GitLabAuthPlugin.V3_API_VERSION.equals(gitLabConfiguration.apiVersion())) {
                 com.talanlabs.gitlab.api.v3.GitLabAPI api = createV3Api(accessToken.getToken());
-                groups = Stream.of(api.getGitLabAPIGroups().getMyGroups()).map(Paged::getResults).flatMap(Collection::stream).map(com.talanlabs.gitlab.api.v3.models.GitlabGroup::getName)
+                groups = Stream.of(api.getGitLabAPIGroups().getMyGroups()).map(Paged::getResults).flatMap(Collection::stream).map(g -> new GitLabGroup(g.getName(), g.getId()))
                         .collect(Collectors.toSet());
             } else if (GitLabAuthPlugin.V4_API_VERSION.equals(gitLabConfiguration.apiVersion())) {
                 com.talanlabs.gitlab.api.v4.GitLabAPI api = createV4Api(accessToken.getToken());
-                groups = Stream.of(api.getGitLabAPIGroups().getMyGroups()).map(Paged::getResults).flatMap(Collection::stream).map(com.talanlabs.gitlab.api.v4.models.GitlabGroup::getName)
+                groups = Stream.of(api.getGitLabAPIGroups().getMyGroups()).map(Paged::getResults).flatMap(Collection::stream).map(g -> new GitLabGroup(g.getName(), g.getId()))
                         .collect(Collectors.toSet());
             }
         } catch (IOException e) {
