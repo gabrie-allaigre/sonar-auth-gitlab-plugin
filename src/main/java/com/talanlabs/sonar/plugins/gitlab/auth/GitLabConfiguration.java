@@ -85,4 +85,8 @@ public class GitLabConfiguration {
     public boolean ignoreCertificate() {
         return settings.getBoolean(GitLabAuthPlugin.GITLAB_AUTH_IGNORE_CERT);
     }
+
+    public Integer groupAllowed() {
+        return settings.getInt(GitLabAuthPlugin.GITLAB_AUTH_GROUP_ALLOWED);
+    }
 }

@@ -50,6 +50,7 @@ public class CallbackTest {
         Mockito.when(configuration.secret()).thenReturn("456");
         Mockito.when(configuration.url()).thenReturn(String.format("http://%s:%d", gitlab.getHostName(), gitlab.getPort()));
         Mockito.when(configuration.scope()).thenReturn("read_user");
+        Mockito.when(configuration.groupAllowed()).thenReturn(0);
 
         GitLabIdentityProvider gitLabIdentityProvider = new GitLabIdentityProvider(configuration);
 
@@ -151,6 +152,7 @@ public class CallbackTest {
         Mockito.when(configuration.syncUserGroups()).thenReturn(true);
         Mockito.when(configuration.groups()).thenReturn(defaultGroup);
         Mockito.when(configuration.apiVersion()).thenReturn(apiVersion);
+        Mockito.when(configuration.groupAllowed()).thenReturn(0);
         if (useException) {
             Mockito.when(configuration.userExceptions()).thenReturn(Collections.singleton("username"));
         }

@@ -43,6 +43,7 @@ public class GitLabAuthPlugin implements Plugin {
     public static final String GITLAB_AUTH_API_VERSION = "sonar.auth.gitlab.api_version";
     public static final String GITLAB_AUTH_USER_EXCEPTIONS = "sonar.auth.gitlab.user_exceptions";
     public static final String GITLAB_AUTH_IGNORE_CERT = "sonar.auth.gitlab.ignore_certificate";
+    public static final String GITLAB_AUTH_GROUP_ALLOWED = "sonar.auth.gitlab.group_allowed";
 
     public static final String CATEGORY = "gitlab";
     public static final String SUBCATEGORY = "authentication";
@@ -78,7 +79,12 @@ public class GitLabAuthPlugin implements Plugin {
                         category(CATEGORY).subCategory(SUBCATEGORY).
                         type(PropertyType.BOOLEAN).
                         defaultValue(String.valueOf(false)).
-                        index(11).build());
+                        index(11).build(),
+                PropertyDefinition.builder(GITLAB_AUTH_GROUP_ALLOWED).name("GitLab Group Allowed").description("The user has to belong to this GitLab group.").
+                        category(CATEGORY).subCategory(SUBCATEGORY).
+                        type(PropertyType.INTEGER).
+                        defaultValue(Integer.toString(0)).
+                        index(12).build());
     }
 
     @Override
