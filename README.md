@@ -95,6 +95,7 @@ Copy Application Id and Secret in Settings of Sonarqube.
 | sonar.auth.gitlab.api_version | GitLab API version |
 | sonar.auth.gitlab.user_exceptions | List of usernames to keep intact (e.g. admin list), use , for multi |
 | sonar.auth.gitlab.ignore_certificate | Ignore Certificate for access GitLab, use for auto-signing cert (default false) | Administration, Variable | >= 2.0.0 |
+| sonar.auth.gitlab.group_allowed | Only allowed users who belong to this GitLab group ID, not applied if group ID is 0 (default 0) |
 
 # Sonarqube
 
