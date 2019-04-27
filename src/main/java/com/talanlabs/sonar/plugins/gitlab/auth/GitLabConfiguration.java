@@ -19,7 +19,7 @@
  */
 package com.talanlabs.sonar.plugins.gitlab.auth;
 
-import org.sonar.api.config.Settings;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.server.ServerSide;
 
 import javax.annotation.CheckForNull;
@@ -27,62 +27,71 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.sonar.api.utils.System2;
 
 @ServerSide
 public class GitLabConfiguration {
 
-    private final Settings settings;
+    private final Configuration configuration;
+    private final System2 system2;
 
-    public GitLabConfiguration(Settings settings) {
-        this.settings = settings;
+    public GitLabConfiguration(Configuration configuration, System2 system2) {
+        super();
+
+        this.configuration = configuration;
+        this.system2 = system2;
     }
 
     @CheckForNull
     public String url() {
-        return settings.getString(GitLabAuthPlugin.GITLAB_AUTH_URL);
+        return configuration.get(GitLabAuthPlugin.GITLAB_AUTH_URL).orElse(null);
     }
 
     @CheckForNull
     public String applicationId() {
-        return settings.getString(GitLabAuthPlugin.GITLAB_AUTH_APPLICATIONID);
+        return configuration.get(GitLabAuthPlugin.GITLAB_AUTH_APPLICATIONID).orElse(null);
     }
 
     @CheckForNull
     public String secret() {
-        return settings.getString(GitLabAuthPlugin.GITLAB_AUTH_SECRET);
+        return configuration.get(GitLabAuthPlugin.GITLAB_AUTH_SECRET).orElse(null);
     }
 
     public String scope() {
-        return settings.getString(GitLabAuthPlugin.GITLAB_AUTH_SCOPE);
+        return configuration.get(GitLabAuthPlugin.GITLAB_AUTH_SCOPE).orElse(null);
     }
 
     public boolean isEnabled() {
-        return settings.getBoolean(GitLabAuthPlugin.GITLAB_AUTH_ENABLED) && applicationId() != null && secret() != null;
+        if (applicationId() != null && secret() != null) {
+            return configuration.getBoolean(GitLabAuthPlugin.GITLAB_AUTH_ENABLED)
+                .orElse(false);
+        }
+        return false;
     }
 
     public boolean allowUsersToSignUp() {
-        return settings.getBoolean(GitLabAuthPlugin.GITLAB_AUTH_ALLOWUSERSTOSIGNUP);
+        return configuration.getBoolean(GitLabAuthPlugin.GITLAB_AUTH_ALLOWUSERSTOSIGNUP).orElse(false);
     }
 
     public Set<String> groups() {
-        String groups = settings.getString(GitLabAuthPlugin.GITLAB_AUTH_GROUPS);
+        String groups = configuration.get(GitLabAuthPlugin.GITLAB_AUTH_GROUPS).orElse(null);
         return groups != null ? Stream.of(groups.split(",")).map(String::trim).collect(Collectors.toSet()) : Collections.emptySet();
     }
 
     public boolean syncUserGroups() {
-        return settings.getBoolean(GitLabAuthPlugin.GITLAB_AUTH_SYNC_USER_GROUPS);
+        return configuration.getBoolean(GitLabAuthPlugin.GITLAB_AUTH_SYNC_USER_GROUPS).orElse(false);
     }
 
     public String apiVersion() {
-        return settings.getString(GitLabAuthPlugin.GITLAB_AUTH_API_VERSION);
+        return configuration.get(GitLabAuthPlugin.GITLAB_AUTH_API_VERSION).orElse(null);
     }
 
     public Set<String> userExceptions() {
-        String exceptions = settings.getString(GitLabAuthPlugin.GITLAB_AUTH_USER_EXCEPTIONS);
+        String exceptions = configuration.get(GitLabAuthPlugin.GITLAB_AUTH_USER_EXCEPTIONS).orElse(null);
         return exceptions != null ? Stream.of(exceptions.split(",")).map(String::trim).collect(Collectors.toSet()) : Collections.emptySet();
     }
 
     public boolean ignoreCertificate() {
-        return settings.getBoolean(GitLabAuthPlugin.GITLAB_AUTH_IGNORE_CERT);
+        return configuration.getBoolean(GitLabAuthPlugin.GITLAB_AUTH_IGNORE_CERT).orElse(false);
     }
 }
