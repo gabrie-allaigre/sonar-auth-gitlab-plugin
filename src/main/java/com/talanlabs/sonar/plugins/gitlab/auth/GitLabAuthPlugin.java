@@ -83,6 +83,9 @@ public class GitLabAuthPlugin implements Plugin {
 
     @Override
     public void define(Context context) {
-        context.addExtensions(GitLabConfiguration.class, GitLabIdentityProvider.class).addExtensions(definitions());
+        context.addExtensions(
+            GitLabOAuthApi.class,
+            GitLabConfiguration.class,
+            GitLabIdentityProvider.class).addExtensions(definitions());
     }
 }
