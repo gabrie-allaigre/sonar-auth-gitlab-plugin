@@ -19,27 +19,25 @@
  */
 package com.talanlabs.sonar.plugins.gitlab.auth;
 
-import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.extractors.AccessTokenExtractor;
-import com.github.scribejava.core.extractors.JsonTokenExtractor;
-import com.github.scribejava.core.model.OAuthConfig;
-import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.utils.OAuthEncoder;
-import com.github.scribejava.core.utils.Preconditions;
+import static java.util.Objects.requireNonNull;
 
+import com.github.scribejava.core.builder.api.DefaultApi20;
+import com.github.scribejava.core.model.Verb;
+import org.sonar.api.server.ServerSide;
+import java.util.Map;
+
+@ServerSide
 public class GitLabOAuthApi extends DefaultApi20 {
 
-    private final String url;
+    private final GitLabConfiguration configuration;
 
-    public GitLabOAuthApi(String url) {
-        super();
-
-        this.url = url;
+    public GitLabOAuthApi(GitLabConfiguration configuration) {
+        this.configuration = configuration;
     }
 
     @Override
     public String getAccessTokenEndpoint() {
-        return url + "/oauth/token";
+        return configuration.url() + "/oauth/token";
     }
 
     @Override
@@ -48,17 +46,16 @@ public class GitLabOAuthApi extends DefaultApi20 {
     }
 
     @Override
-    public AccessTokenExtractor getAccessTokenExtractor() {
-        return new JsonTokenExtractor();
+    protected String getAuthorizationBaseUrl() {
+        return configuration.url() + "/oauth/authorize";
     }
 
     @Override
-    public String getAuthorizationUrl(OAuthConfig config) {
-        Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback. GitLab does not support OOB");
-        String authUrl = String.format("%s/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code", this.url, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
-        if (config.hasScope()) {
-            authUrl += "&scope=" + OAuthEncoder.encode(config.getScope());
-        }
-        return authUrl;
+    public String getAuthorizationUrl(String responseType, String apiKey, String callback, String scope, String state, Map<String, String> additionalParams) {
+        requireNonNull(callback, "URL for callback should not be null.");
+        requireNonNull(apiKey, "ApiKey should not be null.");
+        requireNonNull(state, "State should not be null.");
+
+        return super.getAuthorizationUrl(responseType, apiKey, callback, scope, state, additionalParams);
     }
 }

@@ -19,33 +19,47 @@
  */
 package com.talanlabs.sonar.plugins.gitlab.auth;
 
-import com.github.scribejava.core.extractors.JsonTokenExtractor;
-import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.Verb;
+import com.squareup.okhttp.mockwebserver.MockWebServer;
 import org.assertj.core.api.Assertions;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 public class GitLabApiTest {
+    @Rule
+    public MockWebServer gitlab = new MockWebServer();
 
     @Test
     public void testFields() {
-        GitLabOAuthApi gitLabOAuthApi = new GitLabOAuthApi("http://server");
+
+        GitLabConfiguration configuration = Mockito.mock(GitLabConfiguration.class);
+        Mockito.when(configuration.isEnabled()).thenReturn(true);
+        Mockito.when(configuration.url()).thenReturn("http://server");
+        Mockito.when(configuration.allowUsersToSignUp()).thenReturn(true);
+        Mockito.when(configuration.applicationId()).thenReturn("123");
+        Mockito.when(configuration.secret()).thenReturn("456");
+        Mockito.when(configuration.scope()).thenReturn("read_user");
+
+        GitLabOAuthApi gitLabOAuthApi = new GitLabOAuthApi(configuration);
 
         Assertions.assertThat(gitLabOAuthApi.getAccessTokenEndpoint()).isEqualTo("http://server/oauth/token");
         Assertions.assertThat(gitLabOAuthApi.getAccessTokenVerb()).isEqualTo(Verb.POST);
-        Assertions.assertThat(gitLabOAuthApi.getAccessTokenExtractor()).isInstanceOf(JsonTokenExtractor.class);
     }
 
     @Test
     public void testUrl() {
-        GitLabOAuthApi gitLabOAuthApi = new GitLabOAuthApi("http://server");
+        GitLabConfiguration configuration = Mockito.mock(GitLabConfiguration.class);
+        Mockito.when(configuration.isEnabled()).thenReturn(true);
+        Mockito.when(configuration.allowUsersToSignUp()).thenReturn(true);
+        Mockito.when(configuration.applicationId()).thenReturn("123");
+        Mockito.when(configuration.secret()).thenReturn("456");
+        Mockito.when(configuration.url()).thenReturn("http://server");
+        Mockito.when(configuration.scope()).thenReturn("read_user");
 
-        OAuthConfig oAuthConfig = Mockito.mock(OAuthConfig.class);
-        Mockito.when(oAuthConfig.getCallback()).thenReturn("http://server");
-        Mockito.when(oAuthConfig.hasScope()).thenReturn(true);
-        Mockito.when(oAuthConfig.getScope()).thenReturn("read_user");
-        Mockito.when(oAuthConfig.getApiKey()).thenReturn("123");
-        Assertions.assertThat(gitLabOAuthApi.getAuthorizationUrl(oAuthConfig)).isEqualTo("http://server/oauth/authorize?client_id=123&redirect_uri=http%3A%2F%2Fserver&response_type=code&scope=read_user");
+        GitLabOAuthApi gitLabOAuthApi = new GitLabOAuthApi(configuration);
+
+        Assertions.assertThat(gitLabOAuthApi.getAuthorizationUrl("code", configuration.applicationId(), configuration.url(), configuration.scope(), "state", null))
+            .isEqualTo("http://server/oauth/authorize?response_type=code&client_id=123&redirect_uri=http%3A%2F%2Fserver&scope=read_user&state=state");
     }
 }

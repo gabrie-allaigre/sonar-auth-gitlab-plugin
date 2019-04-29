@@ -83,7 +83,7 @@ public class GitLabConfiguration {
     }
 
     public String apiVersion() {
-        return configuration.get(GitLabAuthPlugin.GITLAB_AUTH_API_VERSION).orElse(null);
+        return configuration.get(GitLabAuthPlugin.GITLAB_AUTH_API_VERSION).orElse(GitLabAuthPlugin.V4_API_VERSION);
     }
 
     public Set<String> userExceptions() {

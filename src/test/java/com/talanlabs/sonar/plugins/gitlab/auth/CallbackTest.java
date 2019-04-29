@@ -51,7 +51,8 @@ public class CallbackTest {
         Mockito.when(configuration.url()).thenReturn(String.format("http://%s:%d", gitlab.getHostName(), gitlab.getPort()));
         Mockito.when(configuration.scope()).thenReturn("read_user");
 
-        GitLabIdentityProvider gitLabIdentityProvider = new GitLabIdentityProvider(configuration);
+        GitLabOAuthApi gitLabOAuthApi = new GitLabOAuthApi(configuration);
+        GitLabIdentityProvider gitLabIdentityProvider = new GitLabIdentityProvider(configuration, gitLabOAuthApi);
 
         OAuth2IdentityProvider.CallbackContext callbackContext = Mockito.mock(OAuth2IdentityProvider.CallbackContext.class);
         Mockito.when(callbackContext.getCallbackUrl()).thenReturn("http://server/callback");
@@ -84,9 +85,12 @@ public class CallbackTest {
         Mockito.when(configuration.allowUsersToSignUp()).thenReturn(true);
         Mockito.when(configuration.applicationId()).thenReturn("123");
         Mockito.when(configuration.secret()).thenReturn("456");
+        Mockito.when(configuration.apiVersion()).thenReturn(GitLabAuthPlugin.V4_API_VERSION);
         Mockito.when(configuration.url()).thenReturn(String.format("http://%s:%d", gitlab.getHostName(), gitlab.getPort()));
         Mockito.when(configuration.scope()).thenReturn(GitLabAuthPlugin.NONE_SCOPE);
-        GitLabIdentityProvider gitLabIdentityProvider = new GitLabIdentityProvider(configuration);
+
+        GitLabOAuthApi gitLabOAuthApi = new GitLabOAuthApi(configuration);
+        GitLabIdentityProvider gitLabIdentityProvider = new GitLabIdentityProvider(configuration, gitLabOAuthApi);
 
         OAuth2IdentityProvider.CallbackContext callbackContext = Mockito.mock(OAuth2IdentityProvider.CallbackContext.class);
         Mockito.when(callbackContext.getCallbackUrl()).thenReturn("http://server/callback");
@@ -102,7 +106,7 @@ public class CallbackTest {
         gitlab.enqueue(new MockResponse().setResponseCode(404).setBody("empty"));
 
         Assertions.assertThatThrownBy(() -> gitLabIdentityProvider.callback(callbackContext)).isInstanceOf(IllegalStateException.class)
-                .hasMessageContaining("Fail to authenticate the user. Error code is 404, Body of the response is empty");
+                .hasMessageContaining("HTTP code: 404, response: empty");
     }
 
     // test with group synchronization using api V3
@@ -155,7 +159,8 @@ public class CallbackTest {
             Mockito.when(configuration.userExceptions()).thenReturn(Collections.singleton("username"));
         }
 
-        GitLabIdentityProvider gitLabIdentityProvider = new GitLabIdentityProvider(configuration);
+        GitLabOAuthApi gitLabOAuthApi = new GitLabOAuthApi(configuration);
+        GitLabIdentityProvider gitLabIdentityProvider = new GitLabIdentityProvider(configuration, gitLabOAuthApi);
 
         OAuth2IdentityProvider.CallbackContext callbackContext = Mockito.mock(OAuth2IdentityProvider.CallbackContext.class);
         Mockito.when(callbackContext.getCallbackUrl()).thenReturn("http://server/callback");
