@@ -3,6 +3,8 @@ Sonar Auth GitLab Plugin
 
 [![https://travis-ci.org/gabrie-allaigre/sonar-auth-gitlab-plugin](https://api.travis-ci.org/gabrie-allaigre/sonar-auth-gitlab-plugin.png?branch=master)](https://travis-ci.org/gabrie-allaigre/sonar-auth-gitlab-plugin)
 
+**This plugin is compatible with SonarQube up to 7.9.X, and won't be compatible with the next SonarQube versions. The GitLab authenfication is built-in SonarQube 8 and later.**
+
 Inspired by https://github.com/SonarSource/sonar-auth-github
 
 **The version 1.3.2 is directly in the SonarQube update center**
