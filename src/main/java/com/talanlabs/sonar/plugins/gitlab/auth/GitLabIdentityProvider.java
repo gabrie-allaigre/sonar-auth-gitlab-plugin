@@ -19,6 +19,25 @@
  */
 package com.talanlabs.sonar.plugins.gitlab.auth;
 
+import static java.lang.String.format;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.sonar.api.server.ServerSide;
+import org.sonar.api.server.authentication.Display;
+import org.sonar.api.server.authentication.OAuth2IdentityProvider;
+import org.sonar.api.server.authentication.UserIdentity;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
+
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -28,23 +47,7 @@ import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.oauth.OAuthService;
 import com.talanlabs.gitlab.api.Paged;
 import com.talanlabs.gitlab.api.v3.GitLabAPI;
-import org.sonar.api.server.ServerSide;
-import org.sonar.api.server.authentication.Display;
-import org.sonar.api.server.authentication.OAuth2IdentityProvider;
-import org.sonar.api.server.authentication.UserIdentity;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static java.lang.String.format;
+import com.talanlabs.gitlab.api.v4.models.GitlabGroup;
 
 @ServerSide
 public class GitLabIdentityProvider implements OAuth2IdentityProvider {
@@ -144,7 +147,7 @@ public class GitLabIdentityProvider implements OAuth2IdentityProvider {
                         .collect(Collectors.toSet());
             } else if (GitLabAuthPlugin.V4_API_VERSION.equals(gitLabConfiguration.apiVersion())) {
                 com.talanlabs.gitlab.api.v4.GitLabAPI api = createV4Api(accessToken.getToken());
-                groups = Stream.of(api.getGitLabAPIGroups().getMyGroups()).map(Paged::getResults).flatMap(Collection::stream).map(com.talanlabs.gitlab.api.v4.models.GitlabGroup::getName)
+                groups = Stream.of(api.retrieve().getAll("/groups?per_page=100&page=1", GitlabGroup[].class)).flatMap(Collection::stream).map(com.talanlabs.gitlab.api.v4.models.GitlabGroup::getName)
                         .collect(Collectors.toSet());
             }
         } catch (IOException e) {
